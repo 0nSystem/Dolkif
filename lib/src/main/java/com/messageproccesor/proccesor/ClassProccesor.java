@@ -16,11 +16,11 @@ import java.util.stream.Collectors;
 
 @Getter
 public class ClassProccesor {
-
+    private static final String REPLACE_SEPARATOR_FILES=".";
     private static final String CLASS_FILE_NAME_EXTENSION = ".class";
-    private Set<Location> resource;
+    private Set<Resource> resource;
 
-    protected ClassProccesor(Set<Location> resource){
+    protected ClassProccesor(Set<Resource> resource){
         this.resource=resource;
     }
 
@@ -30,7 +30,11 @@ public class ClassProccesor {
                 .map(entrySet->new Location(entrySet.getKey(),entrySet.getValue()))
                 .collect(Collectors.toSet());
 
-        return new ClassProccesor(locations);
+        Set<Resource> resources=new HashSet<>();
+        locations.forEach(location ->{
+            resources.addAll(Resource.getResourcesByPath(location.getHome()));
+        });
+        return new ClassProccesor(resources);
     }
     private static Map<File,ClassLoader> getClassPath(ClassLoader classLoader){
         Map<File,ClassLoader> fileClassLoaderHashMap=new HashMap<>();
@@ -94,5 +98,38 @@ public class ClassProccesor {
             this.home = home;
             this.classloader = classloader;
         }
+    }
+
+    @Getter
+    public static class Resource{
+        private final String resoucePath;
+
+        public Resource(@NonNull String resourcePath) {
+            this.resoucePath = resourcePath;
+        }
+
+        static Set<Resource> getResourcesByPath(@NonNull File location) throws NullPointerException{
+            Set<Resource> resources=new HashSet<>();
+
+            if(location.isDirectory()){
+                File[] files=location.listFiles();
+                if(files!=null)
+                    Arrays.stream(files).forEach(a->{
+                        resources.addAll(getResourcesByPath(a));
+                    });
+                return resources;
+            }
+
+            String filePath= location.getPath()
+                    .replace(StandardSystemProperty.JAVA_CLASS_PATH.value(),"")
+                    .replace(CLASS_FILE_NAME_EXTENSION,"")
+                    .substring(1);
+            filePath=filePath.replace(String.valueOf(File.separatorChar),REPLACE_SEPARATOR_FILES);
+            resources.add(new Resource(filePath));
+
+            return resources;
+        }
+
+
     }
 }
