@@ -17,7 +17,7 @@ public class MessageProccesorRunner {
     private static ClassProccesor classProccesor=null;
 
     @Getter
-    private static Map<Class<HandlerProcessor>, Set<Class<RepositoryProcessor>>> handlerProcessorGroupingrepositories=new HashMap<>();
+    private static final Map<Class<HandlerProcessor>, Set<Class<RepositoryProcessor>>> handlerProcessorGroupingrepositories=new HashMap<>();
     public static void run(Class  aClass){
         classProccesor=ClassProccesor.from(aClass.getClassLoader());
         makeGroupsHandlers();
@@ -85,8 +85,9 @@ public class MessageProccesorRunner {
                 Qualify qualify=(Qualify) annotation;
                 Optional<Class<T>> optionalClass=classes.stream().filter(handlerProcessorClass -> handlerProcessorClass.equals(qualify.name())).findFirst();
                 if(optionalClass.isPresent()){
-
-                    return optionalClass;
+                    List<ParameterizedType> typeParams= Arrays.stream(aClass.getGenericInterfaces()).map(a -> (ParameterizedType) a).toList();
+                    Set<Class<T>> classesFilter=Set.of(optionalClass.get());
+                    return filterByCompatibilityGenericParams(typeParams,classesFilter);
                 }
             }
         }
