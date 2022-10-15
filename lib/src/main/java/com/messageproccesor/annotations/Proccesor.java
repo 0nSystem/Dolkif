@@ -1,5 +1,11 @@
 package com.messageproccesor.annotations;
 
-public @interface Proccesor {
+import com.messageproccesor.model.RepositoryProcessor;
 
+import java.lang.annotation.*;
+
+@Inherited
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface Proccesor {
 }

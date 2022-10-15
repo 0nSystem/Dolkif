@@ -16,11 +16,11 @@ import java.util.stream.Collectors;
 
 @Getter
 public class ClassProccesor {
-    private static final String REPLACE_SEPARATOR_FILES=".";
-    private static final String CLASS_FILE_NAME_EXTENSION = ".class";
+    public static final String REPLACE_SEPARATOR_FILES=".";
+    public static final String CLASS_FILE_NAME_EXTENSION = ".class";
     private Set<Resource> resource;
 
-    protected ClassProccesor(Set<Resource> resource){
+    protected ClassProccesor(@NonNull Set<Resource> resource){
         this.resource=resource;
     }
 
@@ -78,9 +78,6 @@ public class ClassProccesor {
         return urlList;
     }
     static File toFile(URL url) {
-        if(!url.getProtocol().equals("file")){
-            throw new IllegalArgumentException();
-        }
         try {
             return new File(url.toURI()); // Accepts escaped characters like %20.
         } catch (URISyntaxException e) { // URL.toURI() doesn't escape chars.
@@ -113,20 +110,28 @@ public class ClassProccesor {
 
             if(location.isDirectory()){
                 File[] files=location.listFiles();
-                if(files!=null)
+                if(files!=null&&files.length>0)
                     Arrays.stream(files).forEach(a->{
                         resources.addAll(getResourcesByPath(a));
                     });
                 return resources;
             }
+            String[] remplacePathClass=StandardSystemProperty.JAVA_CLASS_PATH.value().split(StandardSystemProperty.PATH_SEPARATOR.value());
+            String filePath= null;
+            for (String replace:
+                 remplacePathClass) {
+                if(location.getPath().contains(replace))
+                    filePath=location.getPath().replace(replace,"");
+            }
+            if(filePath==null)
+                throw new NullPointerException();
 
-            String filePath= location.getPath()
-                    .replace(StandardSystemProperty.JAVA_CLASS_PATH.value(),"")
-                    .replace(CLASS_FILE_NAME_EXTENSION,"")
-                    .substring(1);
-            filePath=filePath.replace(String.valueOf(File.separatorChar),REPLACE_SEPARATOR_FILES);
-            resources.add(new Resource(filePath));
-
+            if(!filePath.equals("")){
+                filePath=filePath.replace(File.separator,REPLACE_SEPARATOR_FILES)
+                        .replace(CLASS_FILE_NAME_EXTENSION,"")
+                        .substring(1);
+                resources.add(new Resource(filePath));
+            }
             return resources;
         }
 
