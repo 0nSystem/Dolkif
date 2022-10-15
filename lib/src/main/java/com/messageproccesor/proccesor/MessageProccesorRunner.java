@@ -4,14 +4,14 @@ import com.messageproccesor.annotations.Qualify;
 import com.messageproccesor.exceptions.ExceptionHandlerNotCompatibleWithRepository;
 import com.messageproccesor.model.HandlerProcessor;
 import com.messageproccesor.model.RepositoryProcessor;
-import com.messageproccesor.utils.LoggerMessageProccesor;
-import lombok.Getter;
-
 import java.lang.annotation.Annotation;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URLClassLoader;
 import java.util.*;
-import java.util.logging.Level;
+
+import lombok.Getter;
+
 
 public class MessageProccesorRunner {
     private static ClassProccesor classProccesor=null;
@@ -53,37 +53,18 @@ public class MessageProccesorRunner {
         }).forEach(a->{
             try {
                 Class<?> aClass=URLClassLoader.getSystemClassLoader().loadClass(a.getResoucePath());
-                boolean compatible=false;
                 Type[] typesAClass=aClass.getGenericInterfaces();
                 Class<?> classfilterQualify=null;
 
-                for (Annotation annotation:
-                    aClass.getAnnotations()) {
-                    if(annotation.annotationType().equals(Qualify.class)){
-                        Qualify qualify=(Qualify) annotation;
-                        Optional<Class<HandlerProcessor>> optionalClass=handlerProcessorGroupingrepositories.keySet().stream().filter(handlerProcessorClass -> handlerProcessorClass.equals(qualify.name())).findFirst();
-                        if(optionalClass.isPresent()){
-                            classfilterQualify=optionalClass.get();
-                            break;
-                        }
-
-                    }
-                }
+                Optional<Class<HandlerProcessor>> optional=filterByQualifyAnnotation(aClass);
+                if(optional.isPresent())
+                    classfilterQualify=optional.get();
 
                 if(classfilterQualify==null){
-                    for (Class<?> handler:
-                        handlerProcessorGroupingrepositories.keySet()) {
-
-                        Type[] typesHandler=handler.getGenericInterfaces();
-                        for (Type typeHandler:
-                             typesHandler) {
-                            Optional<Type> type=Arrays.stream(typesAClass).filter(typeClass->typeClass.getTypeName().equals(typeHandler.getTypeName())).findFirst();
-                            if(type.isPresent()){
-                                classfilterQualify=handler;
-                                break;
-                            }
-                        }
-                    }
+                    List<ParameterizedType> parameterizedTypes=Arrays.stream(aClass.getGenericInterfaces()).map(type->(ParameterizedType)type).toList();
+                    optional=filterByCompatibilityGenericParams(parameterizedTypes,handlerProcessorGroupingrepositories.keySet());
+                    if (optional.isPresent())
+                        classfilterQualify=optional.get();
                 }
 
                 if(classfilterQualify==null){
@@ -96,6 +77,43 @@ public class MessageProccesorRunner {
             }
         });
     }
+
+    private static Optional<Class<HandlerProcessor>> filterByQualifyAnnotation(Class aClass){
+        for (Annotation annotation:
+                aClass.getAnnotations()) {
+            if(annotation.annotationType().equals(Qualify.class)){
+                Qualify qualify=(Qualify) annotation;
+                Optional<Class<HandlerProcessor>> optionalClass=handlerProcessorGroupingrepositories.keySet().stream().filter(handlerProcessorClass -> handlerProcessorClass.equals(qualify.name())).findFirst();
+                if(optionalClass.isPresent()){
+                    return optionalClass;
+                }
+            }
+        }
+        return Optional.empty();
+    }
+    private static Optional<Class<HandlerProcessor>> filterByCompatibilityGenericParams(List<ParameterizedType> types, Set<Class<HandlerProcessor>> genericSet){
+        for (Class<HandlerProcessor> handler:
+                genericSet) {
+            List<ParameterizedType> typesHandler= Arrays.stream(handler.getGenericInterfaces()).map(a -> (ParameterizedType) a).toList();
+            for (ParameterizedType typeHandler:
+                    typesHandler) {
+
+                List<Type> typesFilterCoincided= Arrays.stream(typeHandler.getActualTypeArguments()).filter(a -> {
+                    for (ParameterizedType typeSended :
+                            types) {
+                        Optional<Type> optional = Arrays.stream(typeSended.getActualTypeArguments()).filter(type -> type.getTypeName().equals(a.getTypeName())).findFirst();
+                        if (optional.isPresent())
+                            return true;
+                    }
+                    return false;
+                }).toList();
+                if(!typesFilterCoincided.isEmpty())
+                    return Optional.of(handler);
+            }
+        }
+        return Optional.empty();
+    }
+
 
     /**
      *
