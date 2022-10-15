@@ -56,7 +56,7 @@ public class MessageProccesorRunner {
                 Type[] typesAClass=aClass.getGenericInterfaces();
                 Class<?> classfilterQualify=null;
 
-                Optional<Class<HandlerProcessor>> optional=filterByQualifyAnnotation(aClass);
+                Optional<Class<HandlerProcessor>> optional=filterByQualifyAnnotation(aClass,handlerProcessorGroupingrepositories.keySet());
                 if(optional.isPresent())
                     classfilterQualify=optional.get();
 
@@ -78,21 +78,22 @@ public class MessageProccesorRunner {
         });
     }
 
-    private static Optional<Class<HandlerProcessor>> filterByQualifyAnnotation(Class aClass){
+    private static <T> Optional<Class<T>> filterByQualifyAnnotation(Class<?> aClass,Set<Class<T>> classes){
         for (Annotation annotation:
                 aClass.getAnnotations()) {
             if(annotation.annotationType().equals(Qualify.class)){
                 Qualify qualify=(Qualify) annotation;
-                Optional<Class<HandlerProcessor>> optionalClass=handlerProcessorGroupingrepositories.keySet().stream().filter(handlerProcessorClass -> handlerProcessorClass.equals(qualify.name())).findFirst();
+                Optional<Class<T>> optionalClass=classes.stream().filter(handlerProcessorClass -> handlerProcessorClass.equals(qualify.name())).findFirst();
                 if(optionalClass.isPresent()){
+
                     return optionalClass;
                 }
             }
         }
         return Optional.empty();
     }
-    private static Optional<Class<HandlerProcessor>> filterByCompatibilityGenericParams(List<ParameterizedType> types, Set<Class<HandlerProcessor>> genericSet){
-        for (Class<HandlerProcessor> handler:
+    private static <T> Optional<Class<T>> filterByCompatibilityGenericParams(List<ParameterizedType> types, Set<Class<T>> genericSet){
+        for (Class<T> handler:
                 genericSet) {
             List<ParameterizedType> typesHandler= Arrays.stream(handler.getGenericInterfaces()).map(a -> (ParameterizedType) a).toList();
             for (ParameterizedType typeHandler:
@@ -114,7 +115,6 @@ public class MessageProccesorRunner {
         return Optional.empty();
     }
 
-
     /**
      *
      * @param aClass
@@ -122,7 +122,7 @@ public class MessageProccesorRunner {
      * @param notGetBasicInterface represent first iteration to delete base interface and get all class implement interface
      * @return
      */
-    private static boolean containsInterface(Class<?> aClass,Class required,boolean notGetBasicInterface){
+    private static boolean containsInterface(Class<?> aClass,Class<?> required,boolean notGetBasicInterface){
         if(aClass.getTypeName().equals(required.getTypeName())){
             if(notGetBasicInterface)
                 return false;
