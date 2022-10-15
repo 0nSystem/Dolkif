@@ -7,6 +7,7 @@ import com.messageproccesor.proccesor.MessageProccesorRunner;
 import com.messageproccesor.utils.StandardSystemProperty;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.Optional;
@@ -27,7 +28,7 @@ public class App
         MessageProccesorRunner.run(App.class);
         System.out.println("------------");
         MessageProccesorRunner.getHandlerProcessorGroupingrepositories().entrySet().forEach(classSetEntry -> {
-            System.out.println(classSetEntry.getKey().getName());
+            System.out.println("key->"+classSetEntry.getKey().getTypeName()+", value->"+classSetEntry.getValue().toString());
         });
 
     }
