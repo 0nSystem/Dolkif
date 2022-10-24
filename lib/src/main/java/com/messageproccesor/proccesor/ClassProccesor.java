@@ -16,39 +16,39 @@ import java.util.stream.Collectors;
 
 @Getter
 public class ClassProccesor {
-    public static final String REPLACE_SEPARATOR_FILES=".";
-    public static final String CLASS_FILE_NAME_EXTENSION = ".class";
-    private Set<Resource> resource;
+    protected static final String REPLACE_SEPARATOR_FILES=".";
+    protected static final String CLASS_FILE_NAME_EXTENSION = ".class";
+    protected Set<Resource> resource;
 
-    protected ClassProccesor(@NonNull Set<Resource> resource){
+    private ClassProccesor(@NonNull Set<Resource> resource){
         this.resource=resource;
     }
 
     public static ClassProccesor from(ClassLoader classLoader){
-        Set<Location> locations=getClassPath(classLoader)
+        Set<Location> locations = getClassPath(classLoader)
                 .entrySet().stream()
-                .map(entrySet->new Location(entrySet.getKey(),entrySet.getValue()))
+                .map(entrySet-> new Location(entrySet.getKey(),entrySet.getValue()))
                 .collect(Collectors.toSet());
 
-        Set<Resource> resources=new HashSet<>();
+        Set<Resource> resources = new HashSet<>();
         locations.forEach(location ->{
             resources.addAll(Resource.getResourcesByPath(location.getHome()));
         });
+
         return new ClassProccesor(resources);
     }
     private static Map<File,ClassLoader> getClassPath(ClassLoader classLoader){
-        Map<File,ClassLoader> fileClassLoaderHashMap=new HashMap<>();
+        Map<File,ClassLoader> fileClassLoaderHashMap = new HashMap<>();
+        ClassLoader parent = classLoader.getParent();
 
-        ClassLoader parent=classLoader.getParent();
-        if(parent!=null)
+        if(parent != null)
             fileClassLoaderHashMap.putAll(getClassPath(parent));
 
         for (URL url : getClassLoaderUrls(classLoader)) {
             if (url.getProtocol().equals("file")) {
                 File file = toFile(url);
-                if (!fileClassLoaderHashMap.containsKey(file)) {
+                if (!fileClassLoaderHashMap.containsKey(file))
                     fileClassLoaderHashMap.put(file, classLoader);
-                }
             }
         }
 
@@ -63,7 +63,9 @@ public class ClassProccesor {
     }
     private static List<URL> getJavaClassPath(){
         List<URL> urlList=new ArrayList<>();
-        for (String entry :StandardSystemProperty.JAVA_CLASS_PATH.value().split(StandardSystemProperty.PATH_SEPARATOR.value())) {
+        for (String entry : StandardSystemProperty.JAVA_CLASS_PATH.value()
+                    .split(StandardSystemProperty.PATH_SEPARATOR.value())
+        ) {
             try {
                 try {
                     urlList.add(new File(entry).toURI().toURL());
@@ -106,32 +108,34 @@ public class ClassProccesor {
         }
 
         static Set<Resource> getResourcesByPath(@NonNull File location) throws NullPointerException{
-            Set<Resource> resources=new HashSet<>();
+            Set<Resource> resources = new HashSet<>();
 
             if(location.isDirectory()){
                 File[] files=location.listFiles();
-                if(files!=null&&files.length>0)
+                if(files != null&&files.length>0)
                     Arrays.stream(files).forEach(a->{
                         resources.addAll(getResourcesByPath(a));
                     });
                 return resources;
             }
-            String[] remplacePathClass=StandardSystemProperty.JAVA_CLASS_PATH.value().split(StandardSystemProperty.PATH_SEPARATOR.value());
-            String filePath= null;
+
+            String[] replacePathClass = StandardSystemProperty.JAVA_CLASS_PATH.value().split(StandardSystemProperty.PATH_SEPARATOR.value());
+            String filePath = null;
             for (String replace:
-                 remplacePathClass) {
+                 replacePathClass) {
                 if(location.getPath().contains(replace))
                     filePath=location.getPath().replace(replace,"");
             }
-            if(filePath==null)
-                throw new NullPointerException();
 
+            if(filePath == null)
+                throw new NullPointerException();
             if(!filePath.equals("")){
-                filePath=filePath.replace(File.separator,REPLACE_SEPARATOR_FILES)
+                filePath = filePath.replace(File.separator,REPLACE_SEPARATOR_FILES)
                         .replace(CLASS_FILE_NAME_EXTENSION,"")
                         .substring(1);
                 resources.add(new Resource(filePath));
             }
+
             return resources;
         }
 

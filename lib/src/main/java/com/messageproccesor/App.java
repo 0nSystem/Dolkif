@@ -1,7 +1,4 @@
 package com.messageproccesor;
-
-import com.messageproccesor.annotations.Proccesor;
-import com.messageproccesor.model.IObjetToProcessed;
 import com.messageproccesor.proccesor.MessageProccesorRunner;
 import com.messageproccesor.proccesor.ProcessExecutor;
 
@@ -11,7 +8,6 @@ import com.messageproccesor.proccesor.ProcessExecutor;
  * Hello world!
  *
  */
-@Proccesor
 public class App
 {
 

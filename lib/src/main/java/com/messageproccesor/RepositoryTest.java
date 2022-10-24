@@ -10,6 +10,8 @@ public class RepositoryTest implements IRepositoryProcessor<ObjectProccesedTest>
 
     @Override
     public boolean process(ObjectProccesedTest stringObjectProccesedTest) {
+        System.out.println(stringObjectProccesedTest.getBody());
         return false;
     }
+
 }
