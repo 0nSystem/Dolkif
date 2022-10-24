@@ -1,11 +1,14 @@
 package com.messageproccesor;
 
-import com.messageproccesor.model.HandlerProcessor;
-import com.messageproccesor.model.RepositoryProcessor;
+import com.messageproccesor.model.IHandlerProcessor;
+import com.messageproccesor.model.IRepositoryProcessor;
 
-public class HandlerTest implements HandlerProcessor<String> {
+public class HandlerTest implements IHandlerProcessor<ObjectProccesedTest> {
     @Override
-    public void executionProcess(RepositoryProcessor<String> stringRepositoryProcessor) {
+    public void executionProcess(IRepositoryProcessor<ObjectProccesedTest> stringRepositoryProcessor,ObjectProccesedTest objectProccesedTest) {
+        System.out.println("Start Executing");
+        stringRepositoryProcessor.process(objectProccesedTest);
+        System.out.println("Finish Executing");
 
     }
 }

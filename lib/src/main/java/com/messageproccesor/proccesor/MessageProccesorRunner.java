@@ -2,8 +2,8 @@ package com.messageproccesor.proccesor;
 
 import com.messageproccesor.annotations.Qualify;
 import com.messageproccesor.exceptions.ExceptionHandlerNotCompatibleWithRepository;
-import com.messageproccesor.model.HandlerProcessor;
-import com.messageproccesor.model.RepositoryProcessor;
+import com.messageproccesor.model.IHandlerProcessor;
+import com.messageproccesor.model.IRepositoryProcessor;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -17,7 +17,7 @@ public class MessageProccesorRunner {
     private static ClassProccesor classProccesor=null;
 
     @Getter
-    private static final Map<Class<HandlerProcessor>, Set<Class<RepositoryProcessor>>> handlerProcessorGroupingrepositories=new HashMap<>();
+    private static final Map<Class<IHandlerProcessor>, Set<Class<IRepositoryProcessor>>> handlerProcessorGroupingrepositories=new HashMap<>();
     public static void run(Class  aClass){
         classProccesor=ClassProccesor.from(aClass.getClassLoader());
         makeGroupsHandlers();
@@ -27,7 +27,7 @@ public class MessageProccesorRunner {
         classProccesor.getResource().stream().filter(a->{
             try {
                 Class cl=URLClassLoader.getSystemClassLoader().loadClass(a.getResoucePath());
-                return containsInterface(cl,HandlerProcessor.class,true);
+                return containsInterface(cl, IHandlerProcessor.class,true);
             } catch (ClassNotFoundException e) {
                 return false;
             }
@@ -35,7 +35,7 @@ public class MessageProccesorRunner {
             try {
                 Class<?> aClass=URLClassLoader.getSystemClassLoader().loadClass(a.getResoucePath());
                 if(!handlerProcessorGroupingrepositories.containsKey(aClass)){
-                    handlerProcessorGroupingrepositories.put((Class<HandlerProcessor>) aClass,new HashSet<>());
+                    handlerProcessorGroupingrepositories.put((Class<IHandlerProcessor>) aClass,new HashSet<>());
                 }
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -46,7 +46,7 @@ public class MessageProccesorRunner {
         classProccesor.getResource().stream().filter(a->{
             try {
                 Class cl=URLClassLoader.getSystemClassLoader().loadClass(a.getResoucePath());
-                return containsInterface(cl, RepositoryProcessor.class,true);
+                return containsInterface(cl, IRepositoryProcessor.class,true);
             } catch (ClassNotFoundException e) {
                 return false;
             }
@@ -56,13 +56,13 @@ public class MessageProccesorRunner {
                 Type[] typesAClass=aClass.getGenericInterfaces();
                 Class<?> classfilterQualify=null;
 
-                Optional<Class<HandlerProcessor>> optional=filterByQualifyAnnotation(aClass,handlerProcessorGroupingrepositories.keySet());
+                Optional<Class<IHandlerProcessor>> optional=filterByQualifyAnnotation(aClass,handlerProcessorGroupingrepositories.keySet());
                 if(optional.isPresent())
                     classfilterQualify=optional.get();
 
                 if(classfilterQualify==null){
                     List<ParameterizedType> parameterizedTypes=Arrays.stream(aClass.getGenericInterfaces()).map(type->(ParameterizedType)type).toList();
-                    optional=filterByCompatibilityGenericParams(parameterizedTypes,handlerProcessorGroupingrepositories.keySet());
+                    optional=UtilsProcessor.filterByCompatibilityGenericParams(parameterizedTypes,handlerProcessorGroupingrepositories.keySet());
                     if (optional.isPresent())
                         classfilterQualify=optional.get();
                 }
@@ -71,7 +71,7 @@ public class MessageProccesorRunner {
                     throw new ExceptionHandlerNotCompatibleWithRepository();
                 }
 
-                handlerProcessorGroupingrepositories.get(classfilterQualify).add((Class<RepositoryProcessor>) aClass);
+                handlerProcessorGroupingrepositories.get(classfilterQualify).add((Class<IRepositoryProcessor>) aClass);
             } catch (ClassNotFoundException|ExceptionHandlerNotCompatibleWithRepository e) {
                 throw new RuntimeException(e);
             }
@@ -87,34 +87,13 @@ public class MessageProccesorRunner {
                 if(optionalClass.isPresent()){
                     List<ParameterizedType> typeParams= Arrays.stream(aClass.getGenericInterfaces()).map(a -> (ParameterizedType) a).toList();
                     Set<Class<T>> classesFilter=Set.of(optionalClass.get());
-                    return filterByCompatibilityGenericParams(typeParams,classesFilter);
+                    return UtilsProcessor.filterByCompatibilityGenericParams(typeParams,classesFilter);
                 }
             }
         }
         return Optional.empty();
     }
-    private static <T> Optional<Class<T>> filterByCompatibilityGenericParams(List<ParameterizedType> types, Set<Class<T>> genericSet){
-        for (Class<T> handler:
-                genericSet) {
-            List<ParameterizedType> typesHandler= Arrays.stream(handler.getGenericInterfaces()).map(a -> (ParameterizedType) a).toList();
-            for (ParameterizedType typeHandler:
-                    typesHandler) {
 
-                List<Type> typesFilterCoincided= Arrays.stream(typeHandler.getActualTypeArguments()).filter(a -> {
-                    for (ParameterizedType typeSended :
-                            types) {
-                        Optional<Type> optional = Arrays.stream(typeSended.getActualTypeArguments()).filter(type -> type.getTypeName().equals(a.getTypeName())).findFirst();
-                        if (optional.isPresent())
-                            return true;
-                    }
-                    return false;
-                }).toList();
-                if(!typesFilterCoincided.isEmpty())
-                    return Optional.of(handler);
-            }
-        }
-        return Optional.empty();
-    }
 
     /**
      *

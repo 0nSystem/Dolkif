@@ -1,7 +1,5 @@
 package com.messageproccesor.annotations;
 
-import com.messageproccesor.model.RepositoryProcessor;
-
 import java.lang.annotation.*;
 
 @Inherited
