@@ -1,4 +1,4 @@
-package com.messageproccesor;
+package com.messageproccesor.ClassToTest;
 
 import com.messageproccesor.model.IHandlerProcessor;
 import com.messageproccesor.model.IRepositoryProcessor;
@@ -11,4 +11,5 @@ public class HandlerTest implements IHandlerProcessor<ObjectProccesedTest> {
         System.out.println("Finish Executing");
 
     }
+
 }

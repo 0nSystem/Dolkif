@@ -1,4 +1,4 @@
-package com.messageproccesor;
+package com.messageproccesor.ClassToTest;
 
 import com.messageproccesor.annotations.HeaderFilter;
 import com.messageproccesor.annotations.Qualify;
@@ -10,6 +10,8 @@ public class RepositoryTest implements IRepositoryProcessor<ObjectProccesedTest>
 
     @Override
     public boolean process(ObjectProccesedTest stringObjectProccesedTest) {
+        System.out.println(stringObjectProccesedTest.getBody());
         return false;
     }
+
 }

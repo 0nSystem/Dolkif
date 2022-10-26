@@ -1,4 +1,4 @@
-package com.messageproccesor;
+package com.messageproccesor.ClassToTest;
 
 import com.messageproccesor.model.IObjetToProcessed;
 
