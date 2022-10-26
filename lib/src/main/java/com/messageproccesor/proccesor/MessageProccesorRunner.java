@@ -2,7 +2,7 @@ package com.messageproccesor.proccesor;
 
 import com.messageproccesor.annotations.Qualify;
 import com.messageproccesor.exceptions.ExceptionHandlerNotCompatibleWithRepository;
-import com.messageproccesor.model.IHandlerProcessor;
+import com.messageproccesor.model.IServiceProccesor;
 import com.messageproccesor.model.IRepositoryProcessor;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
@@ -17,7 +17,7 @@ public class MessageProccesorRunner {
     private static ClassProccesor classProccesor=null;
 
     @Getter
-    private static final Map< Class<IHandlerProcessor>, Set<Class<IRepositoryProcessor>> > handlerProcessorGroupingrepositories = new HashMap<>();
+    private static final Map< Class<IServiceProccesor>, Set<Class<IRepositoryProcessor>> > handlerProcessorGroupingrepositories = new HashMap<>();
     public static void run(Class<?> aClass){
         classProccesor = ClassProccesor.from(aClass.getClassLoader());
         makeGroupsHandlers();
@@ -27,7 +27,7 @@ public class MessageProccesorRunner {
         classProccesor.getResource().stream().filter(a->{
             try {
                 Class cl = URLClassLoader.getSystemClassLoader().loadClass(a.getResoucePath());
-                return containsInterface(cl, IHandlerProcessor.class,true);
+                return containsInterface(cl, IServiceProccesor.class,true);
             } catch (ClassNotFoundException e) {
                 return false;
             }
@@ -35,7 +35,7 @@ public class MessageProccesorRunner {
             try {
                 Class<?> aClass = URLClassLoader.getSystemClassLoader().loadClass(a.getResoucePath());
                 if(!handlerProcessorGroupingrepositories.containsKey(aClass))
-                    handlerProcessorGroupingrepositories.put((Class<IHandlerProcessor>) aClass,new HashSet<>());
+                    handlerProcessorGroupingrepositories.put((Class<IServiceProccesor>) aClass,new HashSet<>());
 
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -56,7 +56,7 @@ public class MessageProccesorRunner {
                 Type[] typesAClass = aClass.getGenericInterfaces();
                 Class<?> classfilterQualify = null;
 
-                Optional<Class<IHandlerProcessor>> optional = filterByQualifyAnnotation(aClass,handlerProcessorGroupingrepositories.keySet());
+                Optional<Class<IServiceProccesor>> optional = filterByQualifyAnnotation(aClass,handlerProcessorGroupingrepositories.keySet());
                 if(optional.isPresent())
                     classfilterQualify=optional.get();
 

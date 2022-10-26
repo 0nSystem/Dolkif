@@ -2,7 +2,7 @@ package com.messageproccesor.proccesor;
 
 
 import com.messageproccesor.annotations.HeaderFilter;
-import com.messageproccesor.model.IHandlerProcessor;
+import com.messageproccesor.model.IServiceProccesor;
 import com.messageproccesor.model.IObjetToProcessed;
 import com.messageproccesor.model.IRepositoryProcessor;
 import com.messageproccesor.utils.LoggerMessageProccesor;
@@ -16,7 +16,7 @@ public class ProcessExecutor {
 
     public static <T extends IObjetToProcessed> void  exec(T objetToProcessed) throws NullPointerException{
 
-        Optional<Set<Class<IHandlerProcessor>>> handlerProcessorClass = UtilsProcessor.filterByContainGenericParams(objetToProcessed.getClass(),MessageProccesorRunner.getHandlerProcessorGroupingrepositories().keySet());
+        Optional<Set<Class<IServiceProccesor>>> handlerProcessorClass = UtilsProcessor.filterByContainGenericParams(objetToProcessed.getClass(),MessageProccesorRunner.getHandlerProcessorGroupingrepositories().keySet());
         if(handlerProcessorClass.isEmpty())
             throw new NullPointerException("IHandlerProcessor is null");
 
@@ -41,13 +41,13 @@ public class ProcessExecutor {
 
     }
 
-    private static <T extends IObjetToProcessed> void injectRepositoryInHandlerAndExecProcces(Class<IHandlerProcessor> iHandlerProcessorClass,Set<Class<IRepositoryProcessor>> iRepositoryProccesor,T objetToProcessed){
-        IHandlerProcessor handlerInstace = null;
+    private static <T extends IObjetToProcessed> void injectRepositoryInHandlerAndExecProcces(Class<IServiceProccesor> iHandlerProcessorClass, Set<Class<IRepositoryProcessor>> iRepositoryProccesor, T objetToProcessed){
+        IServiceProccesor handlerInstace = null;
         for (Class<IRepositoryProcessor> repositoryProcessorClass:
                 iRepositoryProccesor) {
             try{
                 if(handlerInstace==null){
-                    handlerInstace= (IHandlerProcessor) Arrays.stream(iHandlerProcessorClass.getConstructors())
+                    handlerInstace= (IServiceProccesor) Arrays.stream(iHandlerProcessorClass.getConstructors())
                             .filter(constructor->constructor.getParameterTypes().length == 0)
                             .findFirst().orElseThrow()
                             .newInstance();
