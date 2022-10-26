@@ -19,10 +19,10 @@ public class App
             System.out.println("key->"+classSetEntry.getKey().getTypeName()+", value->"+classSetEntry.getValue().toString());
         });
 
-        ProcessExecutor processExecutor=new ProcessExecutor();
+
         ObjectProccesedTest objetToProcessed=new ObjectProccesedTest();
 
-        processExecutor.exec(objetToProcessed);
+        ProcessExecutor.exec(objetToProcessed);
 
 
     }

@@ -29,7 +29,7 @@ public class UtilsProcessor {
     }
     
     public static <T> Optional<Set<Class<T>>> filterByContainGenericParams(Class<?> classRequired, Set<Class<T>> classes){
-        Set<Class<T>> returnSet=new HashSet<>();
+        Set<Class<T>> returnSet = new HashSet<>();
 
         for (Class<T> aClass:
                 classes) {
