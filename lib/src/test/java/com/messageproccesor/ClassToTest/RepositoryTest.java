@@ -1,4 +1,4 @@
-package com.messageproccesor;
+package com.messageproccesor.ClassToTest;
 
 import com.messageproccesor.annotations.HeaderFilter;
 import com.messageproccesor.annotations.Qualify;

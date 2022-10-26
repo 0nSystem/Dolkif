@@ -18,7 +18,7 @@ public class MessageProccesorRunner {
 
     @Getter
     private static final Map< Class<IHandlerProcessor>, Set<Class<IRepositoryProcessor>> > handlerProcessorGroupingrepositories = new HashMap<>();
-    public static void run(Class<com.messageproccesor.App> aClass){
+    public static void run(Class<?> aClass){
         classProccesor = ClassProccesor.from(aClass.getClassLoader());
         makeGroupsHandlers();
         makeRepositoriesInGroup();
