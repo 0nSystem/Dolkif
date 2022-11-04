@@ -16,6 +16,5 @@ public class TestClassProccesor {
         ProcessExecutor.exec(objetToProcessed);
 
         Assert.assertEquals(1,MessageProccesorRunner.getHandlerProcessorGroupingrepositories().entrySet().size());
-
     }
 }

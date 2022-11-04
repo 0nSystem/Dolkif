@@ -12,22 +12,35 @@ public class UtilsProcessor {
             for (ParameterizedType typeHandler:
                     typesHandler) {
 
-                List<Type> typesFilterCoincided = Arrays.stream(typeHandler.getActualTypeArguments()).filter(a -> {
-                    for (ParameterizedType typeSended :
-                            types) {
-                        Optional<Type> optional = Arrays.stream(typeSended.getActualTypeArguments()).filter(type -> type.getTypeName().equals(a.getTypeName())).findFirst();
-                        if (optional.isPresent())
-                            return true;
-                    }
-                    return false;
-                }).toList();
+                List<Type> typesFilterCoincided = Arrays.stream(typeHandler.getActualTypeArguments())
+                        .filter(handlerTypeParams -> {
+                            for (ParameterizedType typeSended :
+                                    types) {
+                                Optional<Type> optional = Arrays.stream(
+                                        typeSended.getActualTypeArguments())
+                                        .filter(type -> type.getTypeName().equals(handlerTypeParams.getTypeName()))
+                                        .findFirst();
+
+                                if (optional.isPresent())
+                                    return true;
+                            }
+                            return false;
+                        }).toList();
+
                 if(!typesFilterCoincided.isEmpty())
                     return Optional.of(handler);
             }
         }
         return Optional.empty();
     }
-    
+
+    /**
+     *
+     * @param classRequired is a Generic Param Object Required
+     * @param classes Group Class to find in yours generic params
+     * @return Return
+     * @param <T>
+     */
     public static <T> Optional<Set<Class<T>>> filterByContainGenericParams(Class<?> classRequired, Set<Class<T>> classes){
         Set<Class<T>> returnSet = new HashSet<>();
 
@@ -39,9 +52,10 @@ public class UtilsProcessor {
 
                 for (Type paramGeneric:
                      typeHandler.getActualTypeArguments()) {
-                    if(paramGeneric.getTypeName().equals(classRequired.getTypeName())){
+
+                    if(paramGeneric.getTypeName().equals(classRequired.getTypeName()))
                         returnSet.add(aClass);
-                    }
+
                 }
             }
         }
