@@ -18,23 +18,23 @@ public class ProcessExecutor {
 
         Optional<Set<Class<IServiceProccesor>>> handlerProcessorClass = UtilsProcessor.filterByContainGenericParams(objetToProcessed.getClass(),MessageProccesorRunner.getHandlerProcessorGroupingrepositories().keySet());
         if(handlerProcessorClass.isEmpty())
-            throw new NullPointerException("IHandlerProcessor is null");
+            throw new NullPointerException("IHandlerProcessor is empty");
 
         Set<Class<IRepositoryProcessor>> repositories = MessageProccesorRunner.getHandlerProcessorGroupingrepositories()
                 .get(handlerProcessorClass.get().stream()
                 .findFirst().orElseThrow());
         if(repositories.isEmpty())
-            throw new NullPointerException("IRepositoryProcessor is null");
+            throw new NullPointerException("IRepositoryProcessor is empty");
 
         Set<Class<IRepositoryProcessor>> repositoryFilter = repositories.stream()
                 .filter(a->filterByAnnotationFilterHeader(objetToProcessed.getHeader(), a))
                 .collect(Collectors.toSet());
         if(repositoryFilter.isEmpty())
-            throw new NullPointerException("IRepositoryProcessor compatible with HandlerProcessor is null");
+            throw new NullPointerException("IRepositoryProcessor compatible with HandlerProcessor is empty");
 
         injectRepositoryInHandlerAndExecProcces(
-                handlerProcessorClass.orElseThrow(() -> new NullPointerException("IHandlerProcessor is null"))
-                        .stream().findFirst().orElseThrow(() -> new NullPointerException("IHandlerProcessor is null")),
+                handlerProcessorClass.orElseThrow(() -> new NullPointerException("IHandlerProcessor is empty"))
+                        .stream().findFirst().orElseThrow(() -> new NullPointerException("IHandlerProcessor is empty")),
                 repositoryFilter ,
                 objetToProcessed
         );
