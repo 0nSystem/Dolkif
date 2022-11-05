@@ -66,4 +66,32 @@ public class UtilsProcessor {
         return Optional.empty();
 
     }
+    /**
+     *
+     * @param aClass
+     * @param required
+     * @param notGetBasicInterface represent first iteration to delete base interface and get all class implement interface
+     * @return
+     */
+    public static boolean containsInterface(Class<?> aClass,Class<?> required,boolean notGetBasicInterface){
+        if(aClass.getTypeName().equals(required.getTypeName())){
+            if (notGetBasicInterface)
+                return false;
+            return true;
+        }
+
+        Class<?>[] interfaces = aClass.getInterfaces();
+        for (Class<?> i:
+                interfaces) {
+            if(i.getTypeName().equals(required.getTypeName())){
+                return true;
+            }
+
+            //sub interfaces
+            if(i.getInterfaces().length>0)
+                return containsInterface(i,required,false);
+        }
+
+        return false;
+    }
 }
