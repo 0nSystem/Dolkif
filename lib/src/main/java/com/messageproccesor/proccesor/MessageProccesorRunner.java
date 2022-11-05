@@ -1,8 +1,10 @@
 package com.messageproccesor.proccesor;
 
+import com.messageproccesor.annotations.Component;
 import com.messageproccesor.exceptions.ExceptionHandlerNotCompatibleWithRepository;
 import com.messageproccesor.model.IServiceProccesor;
 import com.messageproccesor.model.IRepositoryProcessor;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URLClassLoader;
@@ -14,13 +16,13 @@ import lombok.Getter;
 
 
 public class MessageProccesorRunner {
-    private static FilterFilesToLoadClass classProccesor=null;
+    private static FilesToLoadClass classProccesor = null;
     @Getter
     private static ProcessExecutor processExecutor = null;
 
 
     public static void run(Class< ? > aClass){
-        classProccesor = FilterFilesToLoadClass.from(aClass.getClassLoader());
+        classProccesor = FilesToLoadClass.from(aClass.getClassLoader());
         Set< Class< ? > > otherObjectsClass = findOtherObjectsDifferentAServiceProcessorAndRepositories();
         Map< Class< IServiceProccesor >, Set< Class < IRepositoryProcessor > > > handlerProcessorGroupingrepositories = new HashMap<>();
         makeGroupsHandlers(handlerProcessorGroupingrepositories);
@@ -38,8 +40,11 @@ public class MessageProccesorRunner {
                     try {
                         Class cl = URLClassLoader.getSystemClassLoader()
                                 .loadClass(a.getResoucePath());
-                        if( !UtilsProcessor.containsInterface(cl, IServiceProccesor.class,true)
-                                && !UtilsProcessor.containsInterface(cl, IRepositoryProcessor.class,true))
+                        if(
+                                FilterAnnotation.filterByAnnotationComponent(cl)
+                                &&!UtilsProcessor.containsInterface(cl, IServiceProccesor.class,true)
+                                && !UtilsProcessor.containsInterface(cl, IRepositoryProcessor.class,true)
+                        )
                             return true;
                     } catch (ClassNotFoundException e) {
                         throw new RuntimeException(e);

@@ -15,17 +15,17 @@ import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 @Getter
-public class FilterFilesToLoadClass {
+public class FilesToLoadClass {
 
     protected static final String REPLACE_SEPARATOR_FILES=".";
     protected static final String CLASS_FILE_NAME_EXTENSION = ".class";
     protected Set<Resource> resource;
 
-    private FilterFilesToLoadClass(@NonNull Set<Resource> resource){
+    private FilesToLoadClass(@NonNull Set<Resource> resource){
         this.resource=resource;
     }
 
-    public static FilterFilesToLoadClass from(ClassLoader classLoader){
+    public static FilesToLoadClass from(ClassLoader classLoader){
         Set<Location> locations = getClassPath(classLoader)
                 .entrySet().stream()
                 .map(entrySet-> new Location(entrySet.getKey(),entrySet.getValue()))
@@ -36,7 +36,7 @@ public class FilterFilesToLoadClass {
             resources.addAll(Resource.getResourcesByPath(location.getHome()));
         });
 
-        return new FilterFilesToLoadClass(resources);
+        return new FilesToLoadClass(resources);
     }
     private static Map<File,ClassLoader> getClassPath(ClassLoader classLoader){
         Map<File,ClassLoader> fileClassLoaderHashMap = new HashMap<>();

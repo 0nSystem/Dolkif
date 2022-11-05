@@ -1,5 +1,6 @@
 package com.messageproccesor.proccesor;
 
+import com.messageproccesor.annotations.Component;
 import com.messageproccesor.annotations.HeaderFilter;
 import com.messageproccesor.annotations.Qualify;
 import com.messageproccesor.annotations.Scope;
@@ -18,8 +19,9 @@ public class FilterAnnotation {
      * @return
      * @throws ScopeAnnotationNotFoundException is throw if not exist in class {@link Scope}
      */
-    private static boolean filterByPatternScopeAnnotation(Class<?> classes, PatternScope patternScope) throws ScopeAnnotationNotFoundException {
-
+    private static boolean filterByPatternScopeAnnotation(Class<?> classes,
+                                                          PatternScope patternScope)
+            throws ScopeAnnotationNotFoundException {
         Optional<Scope> scope = Arrays.stream(classes.getAnnotations())
                 .filter( annotation -> annotation.annotationType().equals(Scope.class))
                 .findFirst()
@@ -86,7 +88,6 @@ public class FilterAnnotation {
      */
     public static boolean filterByAnnotationFilterHeader(String header, Class<?> aClass){
 
-
         for (Annotation annotation:
                 aClass.getAnnotations()) {
 
@@ -95,6 +96,16 @@ public class FilterAnnotation {
                 if(headerFilter.header().equals(header))
                     return true;
             }
+        }
+        return false;
+    }
+
+    public static boolean filterByAnnotationComponent(Class < ? > aClass){
+
+        for (Annotation annotation:
+                aClass.getAnnotations()){
+            if(annotation.annotationType().equals(Component.class))
+                return true;
         }
         return false;
     }

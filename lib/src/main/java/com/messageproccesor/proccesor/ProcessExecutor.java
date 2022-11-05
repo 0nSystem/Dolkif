@@ -2,35 +2,30 @@ package com.messageproccesor.proccesor;
 
 
 import com.messageproccesor.enums.PatternScope;
-import com.messageproccesor.exceptions.NotSupportException;
+import com.messageproccesor.model.BeansContainer;
 import com.messageproccesor.model.IServiceProccesor;
 import com.messageproccesor.model.IObjetToProcessed;
 import com.messageproccesor.model.IRepositoryProcessor;
 import com.messageproccesor.utils.LoggerMessageProccesor;
 import lombok.Getter;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+@Getter
 public class ProcessExecutor {
     //Cant modify into moment
     public final static PatternScope DEFAULT_PATTERN_SCOPE = PatternScope.SINGLETON;
 
-    @Getter
-    private final Map< Class<IServiceProccesor>, Set<Class<IRepositoryProcessor>> > allhandlerProcessorGroupingrepositories;
-    @Getter
-    private final Set< Class< ? > > otherObjectsClass;
+    private final BeansContainer beansContainer;
+    private final LoaderInstances loaderInstances;
 
-
-    private final Set< IServiceProccesor > handlerSingleton = new HashSet<>();
-    private final Set< IRepositoryProcessor > repositorySingleton = new HashSet<>();
 
     public ProcessExecutor(Map< Class< IServiceProccesor >, Set< Class< IRepositoryProcessor > > > allhandlerProcessorGroupingrepositories,
                            Set< Class< ? > > otherObjectsClass) {
-        this.allhandlerProcessorGroupingrepositories = allhandlerProcessorGroupingrepositories;
-        this.otherObjectsClass = otherObjectsClass;
+        this.beansContainer = new BeansContainer(allhandlerProcessorGroupingrepositories,otherObjectsClass);
+        this.loaderInstances = new LoaderInstances(this.beansContainer);
     }
 
 
@@ -39,12 +34,12 @@ public class ProcessExecutor {
         Optional<Set<Class<IServiceProccesor>>> handlerProcessorClass = UtilsProcessor
                 .filterByContainGenericParams(
                         objetToProcessed.getClass(),
-                        allhandlerProcessorGroupingrepositories.keySet()
+                        beansContainer.getAllhandlerProcessorGroupingrepositories().keySet()
                 );
         if(handlerProcessorClass.isEmpty())
             throw new NullPointerException("IHandlerProcessor is empty");
 
-        Set<Class<IRepositoryProcessor>> repositories = allhandlerProcessorGroupingrepositories
+        Set<Class<IRepositoryProcessor>> repositories = beansContainer.getAllhandlerProcessorGroupingrepositories()
                 .get(handlerProcessorClass.get().stream()
                 .findFirst().orElseThrow());
         if(repositories.isEmpty())
@@ -56,7 +51,7 @@ public class ProcessExecutor {
         if(repositoryFilter.isEmpty())
             throw new NullPointerException("IRepositoryProcessor compatible with HandlerProcessor is empty");
 
-        injectRepositoryInHandlerClassAndExecProcces(
+        injectRepositoryInHandlerToExecuteMethod(
                 handlerProcessorClass.get()
                         .stream().findFirst()
                         .orElseThrow(() -> new NullPointerException("IHandlerProcessor is empty")),
@@ -66,18 +61,17 @@ public class ProcessExecutor {
 
     }
 
-
-    private static <T extends IObjetToProcessed> void injectRepositoryInHandlerClassAndExecProcces(Class< IServiceProccesor > iHandlerProcessorClass,
-                                                                                                   Set<Class<IRepositoryProcessor>> iRepositoryProccesor,
-                                                                                                   T objetToProcessed){
+    private <T extends IObjetToProcessed> void injectRepositoryInHandlerToExecuteMethod(Class< IServiceProccesor > iHandlerProcessorClass,
+                                                                                        Set<Class<IRepositoryProcessor>> iRepositoryProccesor,
+                                                                                        T objetToProcessed){
         IServiceProccesor handlerInstace = null;
         for (Class<IRepositoryProcessor> repositoryProcessorClass:
                 iRepositoryProccesor) {
             try{
                 if(handlerInstace == null)
-                    handlerInstace= (IServiceProccesor) loadInstancesWithPattern(iHandlerProcessorClass);
+                    handlerInstace = loaderInstances.loadInstancesWithPatternExecute(iHandlerProcessorClass);
 
-                IRepositoryProcessor<?> iRepositoryProcessor = loadInstancesWithPattern(repositoryProcessorClass);
+                IRepositoryProcessor<?> iRepositoryProcessor = loaderInstances.loadInstancesWithPatternExecute(repositoryProcessorClass);
 
                 handlerInstace.executionProcess(iRepositoryProcessor,objetToProcessed);
 
@@ -85,19 +79,6 @@ public class ProcessExecutor {
                 LoggerMessageProccesor.getLogger().log(Level.WARNING,"ProcessExecutor can´t executed method executionProcess" , e);
             }
         }
-    }
-
-    private static <T> T loadInstancesWithPattern(Class<T> aClass) throws InvocationTargetException, InstantiationException, IllegalAccessException, NotSupportException {
-        T instanceNew = null;
-
-        if(FilterAnnotation.filterByPatternScopeAnnotationImpl(aClass,PatternScope.PROTOTYPE))
-            instanceNew = (T) Arrays.stream(aClass.getConstructors())
-                    .filter(constructor->constructor.getParameterTypes().length == 0)
-                    .findFirst().orElseThrow()
-                    .newInstance();
-        else
-            throw new NotSupportException();
-        return instanceNew;
     }
 
 
