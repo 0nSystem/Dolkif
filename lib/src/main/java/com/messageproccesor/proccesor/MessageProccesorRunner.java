@@ -1,6 +1,5 @@
 package com.messageproccesor.proccesor;
 
-import com.messageproccesor.annotations.Component;
 import com.messageproccesor.exceptions.ExceptionHandlerNotCompatibleWithRepository;
 import com.messageproccesor.model.IServiceProccesor;
 import com.messageproccesor.model.IRepositoryProcessor;
@@ -12,6 +11,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
+import com.messageproccesor.proccesor.Filters.FilterAnnotation;
+import com.messageproccesor.proccesor.Filters.FilterGenerics;
+import com.messageproccesor.proccesor.Loaders.FilesToLoadClass;
 import lombok.Getter;
 
 
@@ -42,8 +44,8 @@ public class MessageProccesorRunner {
                                 .loadClass(a.getResoucePath());
                         if(
                                 FilterAnnotation.filterByAnnotationComponent(cl)
-                                &&!UtilsProcessor.containsInterface(cl, IServiceProccesor.class,true)
-                                && !UtilsProcessor.containsInterface(cl, IRepositoryProcessor.class,true)
+                                &&!FilterGenerics.containsInterface(cl, IServiceProccesor.class,true)
+                                && !FilterGenerics.containsInterface(cl, IRepositoryProcessor.class,true)
                         )
                             return true;
                     } catch (ClassNotFoundException e) {
@@ -67,7 +69,7 @@ public class MessageProccesorRunner {
                     try {
                         Class cl = URLClassLoader.getSystemClassLoader()
                                 .loadClass(a.getResoucePath());
-                        return UtilsProcessor.containsInterface(cl, IServiceProccesor.class,true);
+                        return FilterGenerics.containsInterface(cl, IServiceProccesor.class,true);
                     } catch (ClassNotFoundException e) {
                         return false;
                     }
@@ -91,7 +93,7 @@ public class MessageProccesorRunner {
                     try {
                         Class cl = URLClassLoader.getSystemClassLoader()
                                 .loadClass(a.getResoucePath());
-                        return UtilsProcessor.containsInterface(cl, IRepositoryProcessor.class,true);
+                        return FilterGenerics.containsInterface(cl, IRepositoryProcessor.class,true);
                     } catch (ClassNotFoundException e) {
                         return false;
                     }
@@ -110,7 +112,7 @@ public class MessageProccesorRunner {
                                         .map(type -> (ParameterizedType) type)
                                         .toList();
 
-                            optional=UtilsProcessor.filterByCompatibilityGenericParams(parameterizedTypes,handlerProcessorGroupingrepositories.keySet());
+                            optional= FilterGenerics.filterByCompatibilityGenericParams(parameterizedTypes,handlerProcessorGroupingrepositories.keySet());
                             if (optional.isPresent())
                                 classfilterQualify = optional.get();
                         }

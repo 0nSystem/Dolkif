@@ -1,6 +1,6 @@
-package com.messageproccesor.proccesor;
+package com.messageproccesor.proccesor.Loaders;
 
-import com.messageproccesor.utils.LoggerMessageProccesor;
+import com.messageproccesor.utils.Logger;
 import com.messageproccesor.utils.StandardSystemProperty;
 import lombok.Getter;
 import lombok.NonNull;
@@ -74,7 +74,7 @@ public class FilesToLoadClass {
                     urlList.add(new URL("file", null, new File(entry).getAbsolutePath()));
                 }
             } catch (MalformedURLException e) {
-                LoggerMessageProccesor.getLogger().log(Level.WARNING,"Error generated url in getJavaClassPath",e);
+                Logger.getLogger().log(Level.WARNING,"Error generated url in getJavaClassPath",e);
             }
         }
 

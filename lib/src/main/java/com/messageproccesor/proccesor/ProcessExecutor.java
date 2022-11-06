@@ -6,7 +6,10 @@ import com.messageproccesor.model.BeansContainer;
 import com.messageproccesor.model.IServiceProccesor;
 import com.messageproccesor.model.IObjetToProcessed;
 import com.messageproccesor.model.IRepositoryProcessor;
-import com.messageproccesor.utils.LoggerMessageProccesor;
+import com.messageproccesor.proccesor.Filters.FilterAnnotation;
+import com.messageproccesor.proccesor.Filters.FilterGenerics;
+import com.messageproccesor.proccesor.Loaders.LoaderInstances;
+import com.messageproccesor.utils.Logger;
 import lombok.Getter;
 
 import java.util.*;
@@ -31,7 +34,7 @@ public class ProcessExecutor {
 
     public <T extends IObjetToProcessed> void  exec(T objetToProcessed) throws NullPointerException{
 
-        Optional<Set<Class<IServiceProccesor>>> handlerProcessorClass = UtilsProcessor
+        Optional<Set<Class<IServiceProccesor>>> handlerProcessorClass = FilterGenerics
                 .filterByContainGenericParams(
                         objetToProcessed.getClass(),
                         beansContainer.getAllhandlerProcessorGroupingrepositories().keySet()
@@ -46,7 +49,7 @@ public class ProcessExecutor {
             throw new NullPointerException("IRepositoryProcessor is empty");
 
         Set<Class<IRepositoryProcessor>> repositoryFilter = repositories.stream()
-                .filter(a->FilterAnnotation.filterByAnnotationFilterHeader(objetToProcessed.getHeader(), a))
+                .filter(a-> FilterAnnotation.filterByAnnotationFilterHeader(objetToProcessed.getHeader(), a))
                 .collect(Collectors.toSet());
         if(repositoryFilter.isEmpty())
             throw new NullPointerException("IRepositoryProcessor compatible with HandlerProcessor is empty");
@@ -76,7 +79,7 @@ public class ProcessExecutor {
                 handlerInstace.executionProcess(iRepositoryProcessor,objetToProcessed);
 
             }catch (Exception e){
-                LoggerMessageProccesor.getLogger().log(Level.WARNING,"ProcessExecutor can´t executed method executionProcess" , e);
+                Logger.getLogger().log(Level.WARNING,"ProcessExecutor can´t executed method executionProcess" , e);
             }
         }
     }

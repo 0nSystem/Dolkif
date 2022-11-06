@@ -1,10 +1,10 @@
-package com.messageproccesor.proccesor;
+package com.messageproccesor.proccesor.Filters;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
 
-public class UtilsProcessor {
+public class FilterGenerics {
     public static <T> Optional<Class<T>> filterByCompatibilityGenericParams(List<ParameterizedType> types, Set<Class<T>> classes){
         for (Class<T> handler:
                 classes) {

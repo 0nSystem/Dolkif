@@ -1,4 +1,4 @@
-package com.messageproccesor.proccesor;
+package com.messageproccesor.proccesor.Filters;
 
 import com.messageproccesor.annotations.Component;
 import com.messageproccesor.annotations.HeaderFilter;
@@ -6,6 +6,7 @@ import com.messageproccesor.annotations.Qualify;
 import com.messageproccesor.annotations.Scope;
 import com.messageproccesor.enums.PatternScope;
 import com.messageproccesor.exceptions.ScopeAnnotationNotFoundException;
+import com.messageproccesor.proccesor.ProcessExecutor;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
@@ -73,7 +74,7 @@ public class FilterAnnotation {
                 if(optionalClass.isPresent()){
                     List<ParameterizedType> typeParams = Arrays.stream(aClass.getGenericInterfaces()).map(a -> (ParameterizedType) a).toList();
                     Set<Class<T>> classesFilter = Set.of(optionalClass.get());
-                    return UtilsProcessor.filterByCompatibilityGenericParams(typeParams,classesFilter);
+                    return FilterGenerics.filterByCompatibilityGenericParams(typeParams,classesFilter);
                 }
             }
         }

@@ -1,10 +1,13 @@
-package com.messageproccesor.proccesor;
+package com.messageproccesor.proccesor.Loaders;
 
 
 import com.messageproccesor.enums.PatternScope;
 import com.messageproccesor.model.BeansContainer;
 import com.messageproccesor.model.IRepositoryProcessor;
 import com.messageproccesor.model.IServiceProccesor;
+import com.messageproccesor.proccesor.Filters.FilterAnnotation;
+import com.messageproccesor.proccesor.Filters.FilterGenerics;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
@@ -29,7 +32,7 @@ public class LoaderInstances {
             /*
             Tener en si ya existe en el singleton
              */
-            if(UtilsProcessor.containsInterface(aClass, IServiceProccesor.class,true)){
+            if(FilterGenerics.containsInterface(aClass, IServiceProccesor.class,true)){
                 Optional<IServiceProccesor> handlerOptional = beansContainer.getHandlerSingleton()
                         .stream()
                         .filter(a->a.getClass().equals(aClass))
@@ -42,7 +45,7 @@ public class LoaderInstances {
                 }
 
             }
-            else if(UtilsProcessor.containsInterface(aClass, IRepositoryProcessor.class,true)){
+            else if(FilterGenerics.containsInterface(aClass, IRepositoryProcessor.class,true)){
                 Optional<IRepositoryProcessor> resitoryOptional = beansContainer.getRepositorySingleton()
                         .stream()
                         .filter(a->a.getClass().equals(aClass))
