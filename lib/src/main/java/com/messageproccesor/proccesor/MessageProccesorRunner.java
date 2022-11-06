@@ -99,21 +99,29 @@ public class MessageProccesorRunner {
                     }
                 }).forEach(a -> {
                     try {
-                        Class<?> aClass = URLClassLoader.getSystemClassLoader().loadClass(a.getResoucePath());
+                        Class< ? > aClass = URLClassLoader.getSystemClassLoader().loadClass(a.getResoucePath());
                         Type[] typesAClass = aClass.getGenericInterfaces();
-                        Class<?> classfilterQualify = null;
+                        Class< ? > classfilterQualify = null;
 
-                        Optional<Class<IServiceProccesor>> optional = FilterAnnotation.filterByQualifyAnnotation(aClass,handlerProcessorGroupingrepositories.keySet());
-                        if(optional.isPresent())
+                        Optional< Class< IServiceProccesor > > optional = FilterAnnotation.
+                                filterByQualifyAnnotationAndGenericParamsCompatible(
+                                        aClass,
+                                        handlerProcessorGroupingrepositories.keySet()
+                                );
+                        if( optional.isPresent() )
                             classfilterQualify = optional.get();
 
-                        if(classfilterQualify == null){
+                        if( classfilterQualify == null ){
                             List<ParameterizedType> parameterizedTypes = Arrays.stream(aClass.getGenericInterfaces())
                                         .map(type -> (ParameterizedType) type)
                                         .toList();
 
-                            optional= FilterGenerics.filterByCompatibilityGenericParams(parameterizedTypes,handlerProcessorGroupingrepositories.keySet());
-                            if (optional.isPresent())
+                            optional = FilterGenerics
+                                    .filterByCompatibilityGenericParams(
+                                            parameterizedTypes,
+                                            handlerProcessorGroupingrepositories.keySet()
+                                    );
+                            if ( optional.isPresent() )
                                 classfilterQualify = optional.get();
                         }
 

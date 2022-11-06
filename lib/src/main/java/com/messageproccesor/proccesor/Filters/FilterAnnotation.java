@@ -38,7 +38,8 @@ public class FilterAnnotation {
         return false;
     }
     /**
-     * this class control logic in {@see filterByPatternScopeAnnotation}
+     * this class control logic in {@see filterByPatternScopeAnnotation},
+     * work with implementation default pattern scope {@link ProcessExecutor}
      * @param classes class to show annotation declare
      * @param patternScope to filter with pattern
      * @return
@@ -55,6 +56,13 @@ public class FilterAnnotation {
 
     }
 
+    public static Optional<Qualify> filterQualifyAnnotation(Class< ? > aClass){
+        return Arrays.stream(aClass.getAnnotations())
+                .filter(a->a.annotationType().equals(Qualify.class))
+                .findFirst()
+                .map(a -> (Qualify) a);
+    }
+    
     /**
      *
      * @param aClass with annotation {@link Qualify} to search type
@@ -62,21 +70,27 @@ public class FilterAnnotation {
      * @return first field because it can`t has multiple attributes
      * @param <T>
      */
-    public static <T> Optional<Class<T>> filterByQualifyAnnotation(Class<?> aClass, Set<Class<T>> classes){
-        for (Annotation annotation:
-                aClass.getAnnotations()) {
-            if(annotation.annotationType().equals(Qualify.class)){
-                Qualify qualify = (Qualify) annotation;
-                Optional<Class<T>> optionalClass = classes.stream()
-                        .filter(handlerProcessorClass -> handlerProcessorClass.equals(qualify.name()))
-                        .findFirst();
+    public static < T > Optional< Class < T > > filterByQualifyAnnotationAndGenericParamsCompatible(
+            Class< ? > aClass,
+            Set<Class< T > > classes
+    ){
+        Optional< Qualify > qualify = filterQualifyAnnotation(aClass);
+        if(qualify.isEmpty())
+            return Optional.empty();
+        
+        Optional< Class < T > > optionalClass = classes.stream()
+                .filter(handlerProcessorClass -> handlerProcessorClass.equals(qualify.get().name()))
+                .findFirst();
 
-                if(optionalClass.isPresent()){
-                    List<ParameterizedType> typeParams = Arrays.stream(aClass.getGenericInterfaces()).map(a -> (ParameterizedType) a).toList();
-                    Set<Class<T>> classesFilter = Set.of(optionalClass.get());
-                    return FilterGenerics.filterByCompatibilityGenericParams(typeParams,classesFilter);
-                }
-            }
+        if(optionalClass.isPresent()){
+            List< ParameterizedType > typeParams = Arrays.stream(aClass.getGenericInterfaces())
+                    .map(a -> ( ParameterizedType ) a )
+                    .toList();
+            Set< Class < T > > classesFilter = Set.of(optionalClass.get());
+
+            Optional< Class< T > > objectCompatible = FilterGenerics.filterByCompatibilityGenericParams(typeParams,classesFilter);
+            if(objectCompatible.isPresent())
+                return objectCompatible;
         }
         return Optional.empty();
     }
