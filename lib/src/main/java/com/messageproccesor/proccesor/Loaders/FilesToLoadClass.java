@@ -1,6 +1,6 @@
-package com.messageproccesor.proccesor;
+package com.messageproccesor.proccesor.Loaders;
 
-import com.messageproccesor.utils.LoggerMessageProccesor;
+import com.messageproccesor.utils.Logger;
 import com.messageproccesor.utils.StandardSystemProperty;
 import lombok.Getter;
 import lombok.NonNull;
@@ -15,16 +15,17 @@ import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 @Getter
-public class ClassProccesor {
+public class FilesToLoadClass {
+
     protected static final String REPLACE_SEPARATOR_FILES=".";
     protected static final String CLASS_FILE_NAME_EXTENSION = ".class";
     protected Set<Resource> resource;
 
-    private ClassProccesor(@NonNull Set<Resource> resource){
+    private FilesToLoadClass(@NonNull Set<Resource> resource){
         this.resource=resource;
     }
 
-    public static ClassProccesor from(ClassLoader classLoader){
+    public static FilesToLoadClass from(ClassLoader classLoader){
         Set<Location> locations = getClassPath(classLoader)
                 .entrySet().stream()
                 .map(entrySet-> new Location(entrySet.getKey(),entrySet.getValue()))
@@ -35,7 +36,7 @@ public class ClassProccesor {
             resources.addAll(Resource.getResourcesByPath(location.getHome()));
         });
 
-        return new ClassProccesor(resources);
+        return new FilesToLoadClass(resources);
     }
     private static Map<File,ClassLoader> getClassPath(ClassLoader classLoader){
         Map<File,ClassLoader> fileClassLoaderHashMap = new HashMap<>();
@@ -73,7 +74,7 @@ public class ClassProccesor {
                     urlList.add(new URL("file", null, new File(entry).getAbsolutePath()));
                 }
             } catch (MalformedURLException e) {
-                LoggerMessageProccesor.getLogger().log(Level.WARNING,"Error generated url in getJavaClassPath",e);
+                Logger.getLogger().log(Level.WARNING,"Error generated url in getJavaClassPath",e);
             }
         }
 

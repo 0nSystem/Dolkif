@@ -5,7 +5,7 @@ import com.messageproccesor.annotations.Qualify;
 import com.messageproccesor.model.IRepositoryProcessor;
 
 @HeaderFilter(header = "print")
-@Qualify(name = HandlerTest.class)
+@Qualify(name = HandlerSingletonTest.class)
 public class RepositoryTest implements IRepositoryProcessor<ObjectProccesedTest> {
 
     @Override

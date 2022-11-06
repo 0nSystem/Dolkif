@@ -1,82 +1,89 @@
 package com.messageproccesor.proccesor;
 
 
-import com.messageproccesor.annotations.HeaderFilter;
+import com.messageproccesor.enums.PatternScope;
+import com.messageproccesor.model.BeansContainer;
 import com.messageproccesor.model.IServiceProccesor;
 import com.messageproccesor.model.IObjetToProcessed;
 import com.messageproccesor.model.IRepositoryProcessor;
-import com.messageproccesor.utils.LoggerMessageProccesor;
+import com.messageproccesor.proccesor.Filters.FilterAnnotation;
+import com.messageproccesor.proccesor.Filters.FilterGenerics;
+import com.messageproccesor.proccesor.Loaders.LoaderInstances;
+import com.messageproccesor.utils.Logger;
+import lombok.Getter;
 
-import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+@Getter
 public class ProcessExecutor {
+    //Cant modify into moment
+    public final static PatternScope DEFAULT_PATTERN_SCOPE = PatternScope.SINGLETON;
 
-    public static <T extends IObjetToProcessed> void  exec(T objetToProcessed) throws NullPointerException{
+    private final BeansContainer beansContainer;
+    private final LoaderInstances loaderInstances;
 
-        Optional<Set<Class<IServiceProccesor>>> handlerProcessorClass = UtilsProcessor.filterByContainGenericParams(objetToProcessed.getClass(),MessageProccesorRunner.getHandlerProcessorGroupingrepositories().keySet());
+
+    public ProcessExecutor(Map< Class< IServiceProccesor >, Set< Class< IRepositoryProcessor > > > allhandlerProcessorGroupingrepositories,
+                           Set< Class< ? > > otherObjectsClass) {
+        this.beansContainer = new BeansContainer(allhandlerProcessorGroupingrepositories,otherObjectsClass);
+        this.loaderInstances = new LoaderInstances(this.beansContainer);
+    }
+
+
+    public <T extends IObjetToProcessed> void  exec(T objetToProcessed) throws NullPointerException{
+
+        Optional<Set<Class<IServiceProccesor>>> handlerProcessorClass = FilterGenerics
+                .filterByContainGenericParams(
+                        objetToProcessed.getClass(),
+                        beansContainer.getAllhandlerProcessorGroupingrepositories().keySet()
+                );
         if(handlerProcessorClass.isEmpty())
             throw new NullPointerException("IHandlerProcessor is empty");
 
-        Set<Class<IRepositoryProcessor>> repositories = MessageProccesorRunner.getHandlerProcessorGroupingrepositories()
+        Set<Class<IRepositoryProcessor>> repositories = beansContainer.getAllhandlerProcessorGroupingrepositories()
                 .get(handlerProcessorClass.get().stream()
                 .findFirst().orElseThrow());
         if(repositories.isEmpty())
             throw new NullPointerException("IRepositoryProcessor is empty");
 
         Set<Class<IRepositoryProcessor>> repositoryFilter = repositories.stream()
-                .filter(a->filterByAnnotationFilterHeader(objetToProcessed.getHeader(), a))
+                .filter(a-> FilterAnnotation.filterByAnnotationFilterHeader(objetToProcessed.getHeader(), a))
                 .collect(Collectors.toSet());
         if(repositoryFilter.isEmpty())
             throw new NullPointerException("IRepositoryProcessor compatible with HandlerProcessor is empty");
 
-        injectRepositoryInHandlerAndExecProcces(
-                handlerProcessorClass.orElseThrow(() -> new NullPointerException("IHandlerProcessor is empty"))
-                        .stream().findFirst().orElseThrow(() -> new NullPointerException("IHandlerProcessor is empty")),
+        injectRepositoryInHandlerToExecuteMethod(
+                handlerProcessorClass.get()
+                        .stream().findFirst()
+                        .orElseThrow(() -> new NullPointerException("IHandlerProcessor is empty")),
                 repositoryFilter ,
                 objetToProcessed
         );
 
     }
 
-    private static <T extends IObjetToProcessed> void injectRepositoryInHandlerAndExecProcces(Class<IServiceProccesor> iHandlerProcessorClass, Set<Class<IRepositoryProcessor>> iRepositoryProccesor, T objetToProcessed){
+    private <T extends IObjetToProcessed> void injectRepositoryInHandlerToExecuteMethod(Class< IServiceProccesor > iHandlerProcessorClass,
+                                                                                        Set<Class<IRepositoryProcessor>> iRepositoryProccesor,
+                                                                                        T objetToProcessed){
         IServiceProccesor handlerInstace = null;
         for (Class<IRepositoryProcessor> repositoryProcessorClass:
                 iRepositoryProccesor) {
             try{
-                if(handlerInstace==null){
-                    handlerInstace= (IServiceProccesor) Arrays.stream(iHandlerProcessorClass.getConstructors())
-                            .filter(constructor->constructor.getParameterTypes().length == 0)
-                            .findFirst().orElseThrow()
-                            .newInstance();
-                }
+                if(handlerInstace == null)
+                    handlerInstace = loaderInstances.loadInstancesWithPatternExecute(iHandlerProcessorClass);
 
-                IRepositoryProcessor<?> iRepositoryProcessor= (IRepositoryProcessor<?>) Arrays.stream(repositoryProcessorClass.getConstructors())
-                        .filter(repoConstruc->repoConstruc.getParameterTypes().length == 0)
-                        .findFirst().orElseThrow().newInstance();
+                IRepositoryProcessor<?> iRepositoryProcessor = loaderInstances.loadInstancesWithPatternExecute(repositoryProcessorClass);
 
                 handlerInstace.executionProcess(iRepositoryProcessor,objetToProcessed);
 
             }catch (Exception e){
-                LoggerMessageProccesor.getLogger().log(Level.WARNING,"ProcessExecutor can´t executed method executionProcess" , e);
+                Logger.getLogger().log(Level.WARNING,"ProcessExecutor can´t executed method executionProcess" , e);
             }
         }
     }
 
-    private static boolean filterByAnnotationFilterHeader(String header,Class<?> aClass){
-        for (Annotation annotation:
-                aClass.getAnnotations()) {
-
-            if(annotation.annotationType().equals(HeaderFilter.class)){
-                HeaderFilter headerFilter = (HeaderFilter) annotation;
-                if(headerFilter.header().equals(header))
-                    return true;
-            }
-        }
-        return false;
-    }
 
 
 }
