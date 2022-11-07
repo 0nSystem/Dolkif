@@ -1,12 +1,14 @@
 package com.messageproccesor.proccesor.Loaders;
 
 
+import com.messageproccesor.annotations.Scope;
 import com.messageproccesor.enums.PatternScope;
 import com.messageproccesor.proccesor.BeansContainer;
 import com.messageproccesor.model.IRepositoryProcessor;
 import com.messageproccesor.model.IServiceProccesor;
 import com.messageproccesor.proccesor.Filters.FilterAnnotation;
 import com.messageproccesor.proccesor.Filters.FilterGenerics;
+import com.messageproccesor.proccesor.ProcessExecutor;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -26,7 +28,12 @@ public class LoaderInstances {
     public <T> T loadInstancesWithPatternExecute(Class<T> aClass)
             throws InvocationTargetException, InstantiationException, IllegalAccessException, NullPointerException {
         T instanceNew = null;
-        if(FilterAnnotation.filterByPatternScopeAnnotationImpl(aClass, PatternScope.PROTOTYPE))
+
+        PatternScope patternScope = FilterAnnotation.getAnnotation(aClass, Scope.class)
+                .map( o ->  o.pattern() )
+                .orElse( ProcessExecutor.DEFAULT_PATTERN_SCOPE );
+
+        if( patternScope == PatternScope.PROTOTYPE )
             instanceNew = loadInstances(aClass);
         else{
             /*

@@ -4,7 +4,6 @@ import com.messageproccesor.ClassToTest.HandlerSingletonTest;
 import com.messageproccesor.ClassToTest.ObjectProccesedTest;
 import com.messageproccesor.ClassToTest.RepositoryTest;
 import com.messageproccesor.model.IRepositoryProcessor;
-import com.messageproccesor.model.IServiceProccesor;
 import org.junit.Assert;
 import org.junit.Test;
 
