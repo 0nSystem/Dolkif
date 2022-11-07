@@ -1,8 +1,8 @@
 package com.messageproccesor.proccesor;
 
 
+import com.messageproccesor.annotations.HeaderFilter;
 import com.messageproccesor.enums.PatternScope;
-import com.messageproccesor.model.BeansContainer;
 import com.messageproccesor.model.IServiceProccesor;
 import com.messageproccesor.model.IObjetToProcessed;
 import com.messageproccesor.model.IRepositoryProcessor;
@@ -34,22 +34,25 @@ public class ProcessExecutor {
 
     public <T extends IObjetToProcessed> void  exec(T objetToProcessed) throws NullPointerException{
 
-        Optional<Set<Class<IServiceProccesor>>> handlerProcessorClass = FilterGenerics
+        Optional< Set< Class< IServiceProccesor > > > handlerProcessorClass = FilterGenerics
                 .filterByContainGenericParams(
                         objetToProcessed.getClass(),
                         beansContainer.getAllhandlerProcessorGroupingrepositories().keySet()
                 );
-        if(handlerProcessorClass.isEmpty())
+        if( handlerProcessorClass.isEmpty() )
             throw new NullPointerException("IHandlerProcessor is empty");
 
-        Set<Class<IRepositoryProcessor>> repositories = beansContainer.getAllhandlerProcessorGroupingrepositories()
-                .get(handlerProcessorClass.get().stream()
-                .findFirst().orElseThrow());
+        Set< Class < IRepositoryProcessor > > repositories = beansContainer.getAllhandlerProcessorGroupingrepositories()
+                .get(handlerProcessorClass.get()
+                        .stream()
+                        .findFirst()
+                        .orElseThrow(() -> new NullPointerException("Error Generate va"))
+                );
         if(repositories.isEmpty())
             throw new NullPointerException("IRepositoryProcessor is empty");
 
-        Set<Class<IRepositoryProcessor>> repositoryFilter = repositories.stream()
-                .filter(a-> FilterAnnotation.filterByAnnotationFilterHeader(objetToProcessed.getHeader(), a))
+        Set< Class < IRepositoryProcessor > > repositoryFilter = repositories.stream()
+                .filter( a-> FilterAnnotation.getAnnotation(a, HeaderFilter.class ).isPresent() )
                 .collect(Collectors.toSet());
         if(repositoryFilter.isEmpty())
             throw new NullPointerException("IRepositoryProcessor compatible with HandlerProcessor is empty");

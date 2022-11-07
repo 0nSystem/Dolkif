@@ -1,16 +1,13 @@
 package com.messageproccesor.proccesor.Filters;
 
-import com.messageproccesor.annotations.Component;
-import com.messageproccesor.annotations.HeaderFilter;
 import com.messageproccesor.annotations.Qualify;
 import com.messageproccesor.annotations.Scope;
 import com.messageproccesor.enums.PatternScope;
 import com.messageproccesor.exceptions.ScopeAnnotationNotFoundException;
 import com.messageproccesor.proccesor.ProcessExecutor;
-
-import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
+
 
 public class FilterAnnotation {
     /**
@@ -56,12 +53,7 @@ public class FilterAnnotation {
 
     }
 
-    public static Optional<Qualify> filterQualifyAnnotation(Class< ? > aClass){
-        return Arrays.stream(aClass.getAnnotations())
-                .filter(a->a.annotationType().equals(Qualify.class))
-                .findFirst()
-                .map(a -> (Qualify) a);
-    }
+
     
     /**
      *
@@ -74,7 +66,7 @@ public class FilterAnnotation {
             Class< ? > aClass,
             Set<Class< T > > classes
     ){
-        Optional< Qualify > qualify = filterQualifyAnnotation(aClass);
+        Optional< Qualify > qualify = FilterAnnotation.getAnnotation(aClass, Qualify.class);
         if(qualify.isEmpty())
             return Optional.empty();
         
@@ -82,46 +74,24 @@ public class FilterAnnotation {
                 .filter(handlerProcessorClass -> handlerProcessorClass.equals(qualify.get().name()))
                 .findFirst();
 
-        if(optionalClass.isPresent()){
+        if( optionalClass.isPresent() ){
             List< ParameterizedType > typeParams = Arrays.stream(aClass.getGenericInterfaces())
                     .map(a -> ( ParameterizedType ) a )
                     .toList();
             Set< Class < T > > classesFilter = Set.of(optionalClass.get());
 
             Optional< Class< T > > objectCompatible = FilterGenerics.filterByCompatibilityGenericParams(typeParams,classesFilter);
-            if(objectCompatible.isPresent())
+            if( objectCompatible.isPresent() )
                 return objectCompatible;
         }
         return Optional.empty();
     }
 
-    /**
-     *
-     * @param header @{@link HeaderFilter} string
-     * @param aClass class to search
-     * @return
-     */
-    public static boolean filterByAnnotationFilterHeader(String header, Class<?> aClass){
-
-        for (Annotation annotation:
-                aClass.getAnnotations()) {
-
-            if(annotation.annotationType().equals(HeaderFilter.class)){
-                HeaderFilter headerFilter = (HeaderFilter) annotation;
-                if(headerFilter.header().equals(header))
-                    return true;
-            }
-        }
-        return false;
+    public static < T > Optional< T > getAnnotation( Class < ? > toFilter,Class< T > required){
+        return Arrays.stream(toFilter.getAnnotations())
+                .filter( a -> a.annotationType().equals( required ) )
+                .findFirst()
+                .map(a -> ( T ) a);
     }
 
-    public static boolean filterByAnnotationComponent(Class < ? > aClass){
-
-        for (Annotation annotation:
-                aClass.getAnnotations()){
-            if(annotation.annotationType().equals(Component.class))
-                return true;
-        }
-        return false;
-    }
 }

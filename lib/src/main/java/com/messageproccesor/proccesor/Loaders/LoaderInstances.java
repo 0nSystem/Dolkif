@@ -2,7 +2,7 @@ package com.messageproccesor.proccesor.Loaders;
 
 
 import com.messageproccesor.enums.PatternScope;
-import com.messageproccesor.model.BeansContainer;
+import com.messageproccesor.proccesor.BeansContainer;
 import com.messageproccesor.model.IRepositoryProcessor;
 import com.messageproccesor.model.IServiceProccesor;
 import com.messageproccesor.proccesor.Filters.FilterAnnotation;

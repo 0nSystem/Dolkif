@@ -5,6 +5,7 @@ import com.messageproccesor.ClassToTest.HandlerSingletonTest;
 import com.messageproccesor.ClassToTest.RepositoryTest;
 import com.messageproccesor.annotations.HeaderFilter;
 import com.messageproccesor.annotations.Qualify;
+import com.messageproccesor.annotations.Scope;
 import com.messageproccesor.enums.PatternScope;
 import com.messageproccesor.proccesor.ProcessExecutor;
 import org.junit.Assert;
@@ -12,6 +13,7 @@ import org.junit.Test;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
+import java.util.Optional;
 
 /*
 FilterAnnotation.filterByQualifyAnnotationAndGenericParamsCompatible
@@ -46,47 +48,12 @@ public class TestFilterAnnotation {
     }
 
     @Test
-    public void testAnnotationFilterHeader(){
-        Class< ? > objectWithNotContainerHeaderFilter = Object.class;
-        Assert.assertFalse(FilterAnnotation
-                .filterByAnnotationFilterHeader("NotExist",objectWithNotContainerHeaderFilter)
-        );
+    public void testGetAnnotation(){
+        Optional<Scope> scopeEmpty = FilterAnnotation.getAnnotation( Object.class, Scope.class );
+        Optional< Scope > scopePresent = FilterAnnotation.getAnnotation( HandlerSingletonTest.class, Scope.class );
 
-        Class < ? > repositoryWithHeaderFilter = RepositoryTest.class;
-        Annotation annotation = Arrays.stream(repositoryWithHeaderFilter.getAnnotations())
-                .filter(a -> a.annotationType().equals(HeaderFilter.class))
-                .findFirst()
-                .orElseThrow();
-        HeaderFilter headerFilter = (HeaderFilter) annotation;
-        Assert.assertTrue(
-                FilterAnnotation.filterByAnnotationFilterHeader(
-                        headerFilter.header(),
-                        repositoryWithHeaderFilter
-                )
-        );
-    }
-
-    @Test
-    public void filterAnnotationComponent(){
-        Class < ? > classNotFoundAnnotationComponent = Object.class;
-        Assert.assertFalse(FilterAnnotation
-                .filterByAnnotationComponent(classNotFoundAnnotationComponent)
-        );
-
-        Class < ? > classWithAnnotationComponent = ComponentTest.class ;
-        Assert.assertTrue(FilterAnnotation
-                .filterByAnnotationComponent(classWithAnnotationComponent));
-    }
-
-    @Test
-    public void filterByQualifyAnnotation(){
-        Class < ? > classNotFoundQualifyAnnotation = Object.class;
-        Assert.assertTrue(
-                FilterAnnotation.filterQualifyAnnotation(classNotFoundQualifyAnnotation).isEmpty());
-
-        Class < ? > classWithQualifyAnnotation = RepositoryTest.class;
-        Assert.assertTrue(
-                FilterAnnotation.filterQualifyAnnotation(classWithQualifyAnnotation).isPresent());
+        Assert.assertTrue(scopeEmpty.isEmpty());
+        Assert.assertTrue(scopePresent.isPresent());
     }
 
 }

@@ -1,5 +1,6 @@
 package com.messageproccesor.proccesor;
 
+import com.messageproccesor.annotations.Component;
 import com.messageproccesor.exceptions.ExceptionHandlerNotCompatibleWithRepository;
 import com.messageproccesor.model.IServiceProccesor;
 import com.messageproccesor.model.IRepositoryProcessor;
@@ -43,7 +44,7 @@ public class MessageProccesorRunner {
                         Class cl = URLClassLoader.getSystemClassLoader()
                                 .loadClass(a.getResoucePath());
                         if(
-                                FilterAnnotation.filterByAnnotationComponent(cl)
+                                FilterAnnotation.getAnnotation(cl, Component.class).isPresent()
                                 &&!FilterGenerics.containsInterface(cl, IServiceProccesor.class,true)
                                 && !FilterGenerics.containsInterface(cl, IRepositoryProcessor.class,true)
                         )
