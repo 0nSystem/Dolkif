@@ -1,7 +1,6 @@
 package org.dolkif.context;
 
+public class Loader {
 
-
-public class LoaderInstances {
 
 }
