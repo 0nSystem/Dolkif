@@ -6,6 +6,7 @@ import lombok.val;
 import org.dolkif.annotations.Autowired;
 import org.dolkif.annotations.Bean;
 import org.dolkif.annotations.Component;
+import org.dolkif.annotations.Qualify;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -48,6 +49,7 @@ public class AnnotationUtilsTest {
 
     @Component
     private static class WithAnnotation{
+        @Qualify(name = "asd")
         @Autowired
         private String exampleToFieldAnnotation;
 

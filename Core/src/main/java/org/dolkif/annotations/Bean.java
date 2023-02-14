@@ -8,5 +8,6 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Bean {
-    ScopePattern scope = ScopePattern.SINGLETON;
+    ScopePattern scope();
+    String nameBean();
 }

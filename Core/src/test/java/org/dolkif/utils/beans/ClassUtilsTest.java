@@ -1,6 +1,7 @@
 package org.dolkif.utils.beans;
 
 import lombok.val;
+import org.dolkif.annotations.Qualify;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -27,12 +28,12 @@ public class ClassUtilsTest {
     }
 
     @Test
-    public void testClassConstructorPublicWithFieldsNotGenerics(){
-        val mapConstructorAndFieldsWithGeneric = ClassUtils.getPublicConstructorWithFormalFields(ClassExample.class);
+    public void testClassConstructorPublicWithNormalizeFields(){
+        val mapConstructorAndFieldsWithGeneric = ClassUtils.getPublicConstructorWithNormalizeFields(ClassExample.class);
         val firstArgumentsMapGeneric = mapConstructorAndFieldsWithGeneric.entrySet().stream().findFirst().orElseThrow();
         Assert.assertEquals("Error get generic params", 1, firstArgumentsMapGeneric.getValue().length);
 
-        val mapConstructorCorrectNotGeneric = ClassUtils.getPublicConstructorWithFormalFields(ClassInheritanceExample.class);
+        val mapConstructorCorrectNotGeneric = ClassUtils.getPublicConstructorWithNormalizeFields(ClassInheritanceExample.class);
         val firstArgumentsMapNotGeneric = mapConstructorCorrectNotGeneric.entrySet().stream().findFirst().orElseThrow();
         Assert.assertEquals("Error dont get normalize params", 1, firstArgumentsMapNotGeneric.getValue().length);
 

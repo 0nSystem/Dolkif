@@ -32,7 +32,7 @@ public class ClassUtils {
 
         return resultFilter;
     }
-    public static <T> Map<Constructor<T>, Type[]> getPublicConstructorWithFormalFields(final @NonNull Class<T> classType){
+    public static <T> Map<Constructor<T>, Type[]> getPublicConstructorWithNormalizeFields(final @NonNull Class<T> classType){
         return  Arrays.stream(classType.getConstructors())
                 .collect(Collectors.toMap(
                         constructor -> (Constructor<T>)constructor,

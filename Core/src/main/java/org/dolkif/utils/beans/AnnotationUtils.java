@@ -4,6 +4,7 @@ import lombok.NonNull;
 import lombok.val;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -23,6 +24,9 @@ public class AnnotationUtils {
 
     public static <T extends Annotation> Optional<T> getAnnotation(final @NonNull Field field, final @NonNull Class<T> annotationType){
         return checkResultAnnotation(field.getAnnotation(annotationType));
+    }
+    public static <T extends Annotation, R> Optional<T> getAnnotation(final @NonNull Constructor<R> constructor, final @NonNull Class<T> annotationType){
+        return checkResultAnnotation(constructor.getAnnotation(annotationType));
     }
 
     public static <T extends Annotation> List<Field> getFieldsWithAnnotation(final @NonNull Class<?> classType, final @NonNull Class<T> annotationType){
