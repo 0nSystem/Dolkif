@@ -2,9 +2,11 @@ package org.dolkif.utils.beans;
 
 import lombok.NonNull;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Optional;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ClassUtils {
 
@@ -30,6 +32,16 @@ public class ClassUtils {
 
         return resultFilter;
     }
+    public static <T> Map<Constructor<T>, Type[]> getPublicConstructorWithFormalFields(final @NonNull Class<T> classType){
+        return  Arrays.stream(classType.getConstructors())
+                .collect(Collectors.toMap(
+                        constructor -> (Constructor<T>)constructor,
+                        Constructor::getGenericParameterTypes,
+                        (objects, objects2) -> objects
+                ));
+    }
+
+
 
 
 
