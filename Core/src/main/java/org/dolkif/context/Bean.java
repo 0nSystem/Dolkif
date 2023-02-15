@@ -8,6 +8,12 @@ public final class Bean {
     private Bean() throws UnsupportedOperationException{
         throw new UnsupportedOperationException("Error create instance, constructor not support");
     }
+
+    @AllArgsConstructor
+    @Data
+    public static final class BeanReference<T> {
+        private final Class<T> classType;
+    }
     @EqualsAndHashCode(callSuper = true)
     public static final class Instance<T> extends BeanBase<T>{
         public Instance(Configuration configuration,T value){
