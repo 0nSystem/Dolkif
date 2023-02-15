@@ -16,4 +16,5 @@ public interface IInjector {
 
     boolean paramsIsAvailable(final @NonNull Parameter parameter,final @NonNull Bean.BeanBase<?> beanBase) throws UnsupportedOperationException;
 
+
 }

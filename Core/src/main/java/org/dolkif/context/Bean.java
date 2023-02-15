@@ -9,13 +9,13 @@ public final class Bean {
         throw new UnsupportedOperationException("Error create instance, constructor not support");
     }
     @EqualsAndHashCode(callSuper = true)
-    public static class Instance<T> extends BeanBase<T>{
+    public static final class Instance<T> extends BeanBase<T>{
         public Instance(Configuration configuration,T value){
             super(configuration,value);
         }
     }
     @EqualsAndHashCode(callSuper = true)
-    public static class Type<T> extends BeanBase<Class<T>>{
+    public static final class Type<T> extends BeanBase<Class<T>>{
         public Type(Configuration configuration, Class<T> value){
             super(configuration,value);
         }

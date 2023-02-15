@@ -1,5 +1,5 @@
 package org.dolkif.context;
 
-public final class BeansContainer {
+public final class BeansContainer implements IBeansContainer {
 
 }

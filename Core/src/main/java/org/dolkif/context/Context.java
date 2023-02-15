@@ -7,7 +7,6 @@ import org.dolkif.utils.ApplicationProperties;
 @AllArgsConstructor
 public class Context {
 
-    private final @NonNull BeansContainer beansContainer;
     private final @NonNull ApplicationProperties applicationProperties;
 
 
