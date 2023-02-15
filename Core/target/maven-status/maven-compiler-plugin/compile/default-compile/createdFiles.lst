@@ -1,5 +1,4 @@
 org\dolkif\annotations\Component.class
-org\dolkif\context\Injector$Type.class
 org\dolkif\annotations\Configuration.class
 org\dolkif\context\Bean$BeanContainerOperation.class
 org\dolkif\context\Bean$Instance.class

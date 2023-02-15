@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="3" failures="0" name="org.dolkif.utils.beans.AnnotationUtilsTest" time="0.026" errors="0" skipped="0">
+<testsuite tests="2" failures="1" name="org.dolkif.context.InjectorTest" time="0.026" errors="0" skipped="0">
   <properties>
     <property name="idea.version" value="2022.3.2"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -61,7 +61,16 @@
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="org.dolkif.utils.beans.AnnotationUtilsTest" name="org.dolkif.utils.beans.AnnotationUtilsTest.testContainsAnnotationInMethod" time="0.02"/>
-  <testcase classname="org.dolkif.utils.beans.AnnotationUtilsTest" name="org.dolkif.utils.beans.AnnotationUtilsTest.testContainsAnnotationInClass" time="0.002"/>
-  <testcase classname="org.dolkif.utils.beans.AnnotationUtilsTest" name="org.dolkif.utils.beans.AnnotationUtilsTest.testContainsAnnotationInField" time="0.004"/>
+  <testcase classname="org.dolkif.context.InjectorTest" name="org.dolkif.context.InjectorTest.testCheckAvalibleExecutable" time="0.025">
+    <failure message="Multiple Failures (1 failure)
+	org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;" type="org.opentest4j.MultipleFailuresError">org.opentest4j.MultipleFailuresError: Multiple Failures (1 failure)
+	org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;
+	at org.junit.jupiter.api.AssertAll.assertAll(AssertAll.java:80)
+	at org.junit.jupiter.api.AssertAll.assertAll(AssertAll.java:44)
+	at org.junit.jupiter.api.AssertAll.assertAll(AssertAll.java:38)
+	at org.junit.jupiter.api.Assertions.assertAll(Assertions.java:2912)
+	at org.dolkif.context.InjectorTest.testCheckAvalibleExecutable(InjectorTest.java:25)
+</failure>
+  </testcase>
+  <testcase classname="org.dolkif.context.InjectorTest" name="org.dolkif.context.InjectorTest.testGetAvailableParamsCheckingExecutable" time="0.001"/>
 </testsuite>
