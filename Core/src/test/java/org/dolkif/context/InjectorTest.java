@@ -8,6 +8,7 @@ import org.dolkif.annotations.Qualify;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Parameter;
 import java.util.List;
 
 public class InjectorTest {
@@ -29,7 +30,7 @@ public class InjectorTest {
     }
 
     @Test
-    public void testParamsIsAvalible(){
+    public void testParamsIsAvailable(){
         IInjector injector = new Injector();
         val beanType = new org.dolkif.context.Bean.Type<>(
                 new org.dolkif.context.Bean.Configuration("nameBean", ScopePattern.SINGLETON), String.class
@@ -40,7 +41,7 @@ public class InjectorTest {
                 beanType
         );
         boolean paramNotValidNotFoundQualify = injector.paramsIsAvailable(
-                ErrorConfigurationWithMethodMultiplesParams.class.getDeclaredMethods()[0].getParameters()[0],
+                ErrorConfigurationBeanNotQualifyAnnotation.class.getDeclaredMethods()[0].getParameters()[0],
                 beanType
         );
 
@@ -49,6 +50,7 @@ public class InjectorTest {
             Assertions.assertFalse(paramNotValidNotFoundQualify);
         });
     }
+
     @Test
     public void testGetAvailableParamsCheckingExecutable(){
         IInjector injector = new Injector();

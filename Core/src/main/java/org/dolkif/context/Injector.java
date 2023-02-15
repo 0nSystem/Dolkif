@@ -5,10 +5,7 @@ import lombok.NonNull;
 import lombok.val;
 
 import java.lang.reflect.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Injector implements IInjector{
@@ -39,16 +36,16 @@ public class Injector implements IInjector{
     public boolean paramsIsAvailable(final @NonNull Parameter parameter,final @NonNull Bean.BeanBase<?> beanBase) throws UnsupportedOperationException{
         if (beanBase instanceof Bean.Instance<?>) {
             return paramsIsEqualAtType(parameter,((Bean.Instance<?>) beanBase).getValue().getClass())
-                    && paramIsAvailableWithBeanConfiguration(parameter,beanBase.getConfiguration());
+                    && paramIsAvailableEqualsQualifierBeanConfiguration(parameter,beanBase.getConfiguration());
         } else if (beanBase instanceof Bean.Type<?>) {
             return paramsIsEqualAtType(parameter,((Bean.Type<?>) beanBase).getValue())
-                    && paramIsAvailableWithBeanConfiguration(parameter,beanBase.getConfiguration());
+                    && paramIsAvailableEqualsQualifierBeanConfiguration(parameter,beanBase.getConfiguration());
         } else {
             throw new UnsupportedOperationException();
         }
     }
 
-    private Optional<Map<Parameter,Bean.BeanBase<?>>> cleanParametersOptionals(final @NonNull Map<Parameter,Optional<Bean.BeanBase<?>>> mapParamsWithBeanBase) throws UnsupportedOperationException {
+    private Optional<Map<Parameter,Bean.BeanBase<?>>> cleanParametersOptionals(final @NonNull Map<Parameter,Optional<Bean.BeanBase<?>>> mapParamsWithBeanBase) {
         val mapsAvailableParams = mapParamsWithBeanBase.entrySet().stream().filter(mapEntry -> mapEntry.getValue().isPresent());
 
         if (mapsAvailableParams.toList().size() != mapParamsWithBeanBase.entrySet().size())
@@ -70,11 +67,13 @@ public class Injector implements IInjector{
                 ));
     }
 
-    private boolean paramIsAvailableWithBeanConfiguration(final @NonNull Parameter parameter,final @NonNull Bean.Configuration configurationBean){
+    private boolean paramIsAvailableEqualsQualifierBeanConfiguration(final @NonNull Parameter parameter, final @NonNull Bean.Configuration configurationBean){
+
         return Optional.ofNullable(parameter.getAnnotation(org.dolkif.annotations.Qualify.class))
                 .map(qualify -> qualify.name().equals(configurationBean.getQualifierName()))
-                .isPresent();
+                .orElse(false);
     }
+    //TODO Have a bug with inheritance change logic compare with load parameter with class loader
     private boolean paramsIsEqualAtType(final @NonNull Parameter parameter, Class<?> classType){
         return parameter.getType().getTypeName().equals(classType.getTypeName());
     }

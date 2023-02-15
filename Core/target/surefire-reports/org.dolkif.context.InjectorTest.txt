@@ -1,13 +1,22 @@
 -------------------------------------------------------------------------------
 Test set: org.dolkif.context.InjectorTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.026 sec <<< FAILURE!
-org.dolkif.context.InjectorTest.testCheckAvalibleExecutable()  Time elapsed: 0.025 sec  <<< FAILURE!
+Tests run: 3, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.049 sec <<< FAILURE!
+org.dolkif.context.InjectorTest.testGetAvailableParamsCheckingExecutable()  Time elapsed: 0.045 sec  <<< FAILURE!
 org.opentest4j.MultipleFailuresError: Multiple Failures (1 failure)
 	org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
 	at org.junit.jupiter.api.AssertAll.assertAll(AssertAll.java:80)
 	at org.junit.jupiter.api.AssertAll.assertAll(AssertAll.java:44)
 	at org.junit.jupiter.api.AssertAll.assertAll(AssertAll.java:38)
 	at org.junit.jupiter.api.Assertions.assertAll(Assertions.java:2912)
-	at org.dolkif.context.InjectorTest.testCheckAvalibleExecutable(InjectorTest.java:25)
+	at org.dolkif.context.InjectorTest.testGetAvailableParamsCheckingExecutable(InjectorTest.java:71)
+
+org.dolkif.context.InjectorTest.testParamsIsAvalible()  Time elapsed: 0.002 sec  <<< FAILURE!
+org.opentest4j.MultipleFailuresError: Multiple Failures (1 failure)
+	org.opentest4j.AssertionFailedError: expected: <false> but was: <true>
+	at org.junit.jupiter.api.AssertAll.assertAll(AssertAll.java:80)
+	at org.junit.jupiter.api.AssertAll.assertAll(AssertAll.java:44)
+	at org.junit.jupiter.api.AssertAll.assertAll(AssertAll.java:38)
+	at org.junit.jupiter.api.Assertions.assertAll(Assertions.java:2912)
+	at org.dolkif.context.InjectorTest.testParamsIsAvalible(InjectorTest.java:47)
 

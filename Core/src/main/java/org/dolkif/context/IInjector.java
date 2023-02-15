@@ -15,4 +15,5 @@ public interface IInjector {
     boolean checkAvailableExecutable(final @NonNull Executable executable);
 
     boolean paramsIsAvailable(final @NonNull Parameter parameter,final @NonNull Bean.BeanBase<?> beanBase) throws UnsupportedOperationException;
+
 }

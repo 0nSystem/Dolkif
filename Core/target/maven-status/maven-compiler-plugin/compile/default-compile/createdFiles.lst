@@ -19,6 +19,7 @@ org\dolkif\context\Context.class
 org\dolkif\utils\LoggerDolkif.class
 org\dolkif\utils\beans\ClassUtils.class
 org\dolkif\annotations\Bean.class
+org\dolkif\context\IInjector.class
 org\dolkif\context\Bean$BeanBase.class
 org\dolkif\utils\StandardSystemProperties.class
 org\dolkif\context\ReaderClass.class
