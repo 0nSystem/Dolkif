@@ -2,10 +2,8 @@ org\dolkif\context\InjectorTest.class
 org\dolkif\utils\beans\ClassUtilsTest$ClassExample.class
 org\dolkif\context\InjectorTest$ErrorConfigurationWithMethodMultiplesParams.class
 org\dolkif\utils\beans\ClassUtilsTest$InterfaceExample.class
-org\dolkif\utils\beans\BeanUtilsTest$ExampleParamsIsValid.class
 org\dolkif\context\InjectorTest$ConfigurationBean.class
 org\dolkif\utils\beans\ClassUtilsTest$ClassInheritanceExample.class
-org\dolkif\utils\beans\BeanUtilsTest.class
 org\dolkif\context\ReaderClassTest.class
 org\dolkif\utils\beans\AnnotationUtilsTest.class
 org\dolkif\utils\beans\ClassUtilsTest.class

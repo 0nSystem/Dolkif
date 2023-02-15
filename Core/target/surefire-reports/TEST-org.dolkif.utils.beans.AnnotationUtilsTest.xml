@@ -60,7 +60,7 @@
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="org.dolkif.utils.beans.AnnotationUtilsTest" name="org.dolkif.utils.beans.AnnotationUtilsTest.testContainsAnnotationInClass" time="0.002"/>
   <testcase classname="org.dolkif.utils.beans.AnnotationUtilsTest" name="org.dolkif.utils.beans.AnnotationUtilsTest.testContainsAnnotationInMethod" time="0.004"/>
+  <testcase classname="org.dolkif.utils.beans.AnnotationUtilsTest" name="org.dolkif.utils.beans.AnnotationUtilsTest.testContainsAnnotationInClass" time="0.002"/>
   <testcase classname="org.dolkif.utils.beans.AnnotationUtilsTest" name="org.dolkif.utils.beans.AnnotationUtilsTest.testContainsAnnotationInField" time="0.002"/>
 </testsuite>

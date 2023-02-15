@@ -68,8 +68,6 @@ public class InjectorTest {
                 ErrorConfigurationWithMethodMultiplesParams.class.getDeclaredMethods()[0],beanBases
         );
 
-
-
         Assertions.assertAll(() -> {
             Assertions.assertTrue(presentOptionalMapParamsWithBeanBase.isPresent());
             Assertions.assertEquals(1, presentOptionalMapParamsWithBeanBase.get().size());

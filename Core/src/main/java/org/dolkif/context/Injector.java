@@ -73,9 +73,13 @@ public class Injector implements IInjector{
                 .map(qualify -> qualify.name().equals(configurationBean.getQualifierName()))
                 .orElse(false);
     }
-    //TODO Have a bug with inheritance change logic compare with load parameter with class loader
-    private boolean paramsIsEqualAtType(final @NonNull Parameter parameter, Class<?> classType){
-        return parameter.getType().getTypeName().equals(classType.getTypeName());
+    private boolean paramsIsEqualAtType(final @NonNull Parameter parameter,final @NonNull Class<?> classType){
+        boolean isEqualsTypeName = parameter.getType().getTypeName().equals(classType.getTypeName());
+
+        if(!isEqualsTypeName && classType.getSuperclass() != null)
+            isEqualsTypeName = paramsIsEqualAtType(parameter, classType.getSuperclass());
+
+        return isEqualsTypeName;
     }
 
 }
