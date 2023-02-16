@@ -1,0 +1,15 @@
+org\dolkif\context\CheckerDependenciesTest$ErrorConfigurationBeanNotBeanAnnotation.class
+org\dolkif\utils\beans\ClassUtilsTest$ClassExample.class
+org\dolkif\context\CheckerDependenciesTest$ErrorConfigurationWithMethodMultiplesParams.class
+org\dolkif\utils\beans\ClassUtilsTest$InterfaceExample.class
+org\dolkif\context\CheckerDependenciesTest$ConfigurationBean.class
+org\dolkif\utils\beans\ClassUtilsTest$ClassInheritanceExample.class
+org\dolkif\context\CheckerDependenciesTest$ErrorConfigurationBeanNotQualifyAnnotation.class
+org\dolkif\context\ReaderClassTest.class
+org\dolkif\context\CheckerDependenciesTest.class
+org\dolkif\context\CheckerDependenciesTest$ErrorConfigurationBeanNotComponentAnnotation.class
+org\dolkif\utils\beans\AnnotationUtilsTest.class
+org\dolkif\utils\beans\ClassUtilsTest.class
+org\dolkif\utils\beans\AnnotationUtilsTest$WithAnnotation.class
+org\dolkif\utils\beans\AnnotationUtilsTest$InheritanceClassAnnotation.class
+org\dolkif\context\BeanContainerTest.class
