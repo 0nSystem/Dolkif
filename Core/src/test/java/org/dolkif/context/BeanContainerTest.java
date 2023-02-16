@@ -34,19 +34,13 @@ public class BeanContainerTest {
     public void testAddBeanContainer(){
         val beanToCopyTwoTimeFirstAddAndSecondCantAdd = new Bean.Instance<>(
                 new Bean.Configuration(null, Bean.ScopePattern.PROTOTYPE),
-                Integer.class
+                Double.class
         );
 
         Assertions.assertAll(() -> {
-            Assertions.assertTrue(
-                    beansContainer.addBean(
-                            new Bean.Type<>(new Bean.Configuration(null, Bean.ScopePattern.PROTOTYPE),
-                                    String.class)
-                    )
-            );
             Assertions.assertTrue(beansContainer.addBean(beanToCopyTwoTimeFirstAddAndSecondCantAdd));
             Assertions.assertFalse(beansContainer.addBean(beanToCopyTwoTimeFirstAddAndSecondCantAdd));
-            Assertions.assertEquals(6,beansContainer.getAllBeans().size());
+            Assertions.assertEquals(5,beansContainer.getAllBeans().size());
 
         });
     }

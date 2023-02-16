@@ -1,18 +1,30 @@
 package org.dolkif.context;
 
 import lombok.*;
-import org.dolkif.ScopePattern;
+
+import java.lang.annotation.Annotation;
 
 public final class Bean {
 
     private Bean() throws UnsupportedOperationException{
         throw new UnsupportedOperationException("Error create instance, constructor not support");
     }
+    public enum ScopePattern {
+        SINGLETON,PROTOTYPE
+    }
+    public enum TypeReference{
+        FIELDS_CLASS,
+        PARAMS_EXECUTABLE,
+        NULL
+
+    }
 
     @AllArgsConstructor
     @Data
     public static final class BeanReference<T> {
-        private final Class<T> classType;
+        private final @NonNull TypeReference typeReference;
+        private final @NonNull Class<T> classType;
+        private final @NonNull Annotation[] annotationsLoaded;
     }
     @EqualsAndHashCode(callSuper = true)
     public static final class Instance<T> extends BeanBase<T>{

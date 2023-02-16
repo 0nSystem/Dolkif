@@ -15,6 +15,7 @@ public class ClassUtils {
      * @param <R> Param base
      */
     public static <T,R> Optional<Class<T>> findClassInheritanceAndInterfaceImplementations(final @NonNull Class<T> classToFind, final @NonNull Class<R> classType){
+        //TODO revision java.Beans
         if(classToFind.equals(classType))
             return Optional.of(classToFind);
 

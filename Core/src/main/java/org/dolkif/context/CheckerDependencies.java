@@ -3,12 +3,14 @@ package org.dolkif.context;
 
 import lombok.NonNull;
 import lombok.val;
+import org.dolkif.annotations.Autowired;
+import org.dolkif.utils.beans.AnnotationUtils;
 
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Injector implements IInjector{
+public class CheckerDependencies implements ICheckerDependencies {
 
     @Override
     public Optional<Map<Parameter,Bean.BeanBase<?>>> getAvailableParamsCheckingExecutable(final @NonNull Executable executable, final @NonNull List<Bean.BeanBase<?>> classList){
@@ -43,6 +45,21 @@ public class Injector implements IInjector{
         } else {
             throw new UnsupportedOperationException();
         }
+    }
+
+    @Override
+    public List<Bean.BeanReference<?>> getParamsRequired(@NonNull Executable executable) {
+        return Arrays.stream(executable.getParameters())
+                .map(param->new Bean.BeanReference<>(Bean.TypeReference.PARAMS_EXECUTABLE,param.getType(),param.getAnnotations()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Bean.BeanReference<?>> getFieldsRequired(@NonNull Class<?> classType) {
+        return AnnotationUtils.getFieldsWithAnnotation(classType, Autowired.class)
+                .stream()
+                .map(field -> new Bean.BeanReference<>(Bean.TypeReference.FIELDS_CLASS,field.getType(),field.getAnnotations()))
+                .collect(Collectors.toList());
     }
 
     private Optional<Map<Parameter,Bean.BeanBase<?>>> cleanParametersOptionals(final @NonNull Map<Parameter,Optional<Bean.BeanBase<?>>> mapParamsWithBeanBase) {

@@ -5,48 +5,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="97d101c2-0260-4563-b6ae-a94acb56414a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apiguardian_apiguardian_api_1_1_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_5_9_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_api_5_9_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_engine_5_9_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_params_5_9_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_platform_junit_platform_commons_1_9_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_platform_junit_platform_engine_1_9_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_opentest4j_opentest4j_1_2_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_projectlombok_lombok_1_18_24.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/context/CheckerDependencies.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/context/ICheckerDependencies.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/dolkif/context/CheckerDependenciesTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/ScopePattern.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/annotations/Bean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/annotations/Bean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/context/Bean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/context/Bean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/context/BeansContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/context/BeansContainer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/context/CheckerDependencies.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/context/CheckerDependencies.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/context/IBeansContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/context/IBeansContainer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/context/ICheckerDependencies.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/context/ICheckerDependencies.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/context/IInjector.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/context/Injector.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/context/Loader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/context/Loader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/utils/beans/AnnotationUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/utils/beans/AnnotationUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/utils/beans/ClassUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/utils/beans/ClassUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/dolkif/context/BeanContainerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/dolkif/context/BeanContainerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/dolkif/context/CheckerDependenciesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/dolkif/context/CheckerDependenciesTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/org/dolkif/context/InjectorTest.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-org.dolkif.context.InjectorTest.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-org.dolkif.context.ReaderClassTest.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-org.dolkif.utils.beans.AnnotationUtilsTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-org.dolkif.context.ReaderClassTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-org.dolkif.context.ReaderClassTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-org.dolkif.utils.beans.AnnotationUtilsTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-org.dolkif.utils.beans.AnnotationUtilsTest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-org.dolkif.utils.beans.BeanUtilsTest.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-org.dolkif.utils.beans.ClassUtilsTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-org.dolkif.utils.beans.ClassUtilsTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-org.dolkif.utils.beans.ClassUtilsTest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/org.dolkif.context.InjectorTest.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/org.dolkif.context.ReaderClassTest.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/org.dolkif.utils.beans.AnnotationUtilsTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/org.dolkif.context.ReaderClassTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/org.dolkif.context.ReaderClassTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/org.dolkif.utils.beans.AnnotationUtilsTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/org.dolkif.utils.beans.AnnotationUtilsTest.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/org.dolkif.utils.beans.BeanUtilsTest.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/org.dolkif.utils.beans.ClassUtilsTest.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/utils/beans/AnnotationUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/utils/beans/AnnotationUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/org.dolkif.utils.beans.ClassUtilsTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/org.dolkif.utils.beans.ClassUtilsTest.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +88,7 @@
       <recent name="org.dolkif" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.CheckerDependenciesTest.testGetFieldsRequired">
+  <component name="RunManager" selected="JUnit.BeanContainerTest">
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.dolkif.App" />
       <module name="core" />
@@ -103,7 +96,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CheckerDependenciesTest.testCheckAvalibleExecutable" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BeanContainerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="core" />
       <extension name="coverage">
         <pattern>
@@ -112,14 +105,29 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="org.dolkif.context" />
-      <option name="MAIN_CLASS_NAME" value="org.dolkif.context.CheckerDependenciesTest" />
-      <option name="METHOD_NAME" value="testCheckAvalibleExecutable" />
+      <option name="MAIN_CLASS_NAME" value="org.dolkif.context.BeanContainerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BeanContainerTest.testAddBeanContainer" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="core" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.dolkif.context.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.dolkif.context" />
+      <option name="MAIN_CLASS_NAME" value="org.dolkif.context.BeanContainerTest" />
+      <option name="METHOD_NAME" value="testAddBeanContainer" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CheckerDependenciesTest.testGetAvailableParamsCheckingExecutable" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BeanContainerTest.testFilterBeanContainer" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="core" />
       <extension name="coverage">
         <pattern>
@@ -128,8 +136,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="org.dolkif.context" />
-      <option name="MAIN_CLASS_NAME" value="org.dolkif.context.CheckerDependenciesTest" />
-      <option name="METHOD_NAME" value="testGetAvailableParamsCheckingExecutable" />
+      <option name="MAIN_CLASS_NAME" value="org.dolkif.context.BeanContainerTest" />
+      <option name="METHOD_NAME" value="testFilterBeanContainer" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -167,37 +175,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CheckerDependenciesTest.testParamsIsAvalible" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="core" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.dolkif.context.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.dolkif.context" />
-      <option name="MAIN_CLASS_NAME" value="org.dolkif.context.CheckerDependenciesTest" />
-      <option name="METHOD_NAME" value="testParamsIsAvalible" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="Application.Main" />
+      <item itemvalue="JUnit.BeanContainerTest" />
+      <item itemvalue="JUnit.BeanContainerTest.testAddBeanContainer" />
+      <item itemvalue="JUnit.BeanContainerTest.testFilterBeanContainer" />
       <item itemvalue="JUnit.CheckerDependenciesTest.testGetFieldsRequired" />
       <item itemvalue="JUnit.CheckerDependenciesTest.testGetParamsRequired" />
-      <item itemvalue="JUnit.CheckerDependenciesTest.testCheckAvalibleExecutable" />
-      <item itemvalue="JUnit.CheckerDependenciesTest.testGetAvailableParamsCheckingExecutable" />
-      <item itemvalue="JUnit.CheckerDependenciesTest.testParamsIsAvalible" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.BeanContainerTest" />
+        <item itemvalue="JUnit.BeanContainerTest.testFilterBeanContainer" />
+        <item itemvalue="JUnit.BeanContainerTest.testAddBeanContainer" />
         <item itemvalue="JUnit.CheckerDependenciesTest.testGetFieldsRequired" />
         <item itemvalue="JUnit.CheckerDependenciesTest.testGetParamsRequired" />
-        <item itemvalue="JUnit.CheckerDependenciesTest.testGetAvailableParamsCheckingExecutable" />
-        <item itemvalue="JUnit.CheckerDependenciesTest.testParamsIsAvalible" />
-        <item itemvalue="JUnit.CheckerDependenciesTest.testCheckAvalibleExecutable" />
       </list>
     </recent_temporary>
   </component>
@@ -230,16 +222,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/org/dolkif/utils/beans/AnnotationUtils.java</url>
           <line>11</line>
           <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/dolkif/utils/beans/ClassUtils.java</url>
-          <line>16</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/dolkif/utils/beans/ClassUtils.java</url>
-          <line>15</line>
-          <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/org/dolkif/context/ReaderClassTest.java</url>
@@ -275,6 +257,16 @@
           <url>file://$PROJECT_DIR$/src/test/java/org/dolkif/context/CheckerDependenciesTest.java</url>
           <line>85</line>
           <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/org/dolkif/context/BeanContainerTest.java</url>
+          <line>52</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/org/dolkif/context/BeanContainerTest.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="40" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

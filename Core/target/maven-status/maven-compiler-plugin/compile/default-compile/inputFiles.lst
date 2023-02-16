@@ -1,11 +1,13 @@
 C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\context\Loader.java
+C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\context\CheckerDependencies.java
 C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\utils\ApplicationProperties.java
-C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\context\Injector.java
+C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\context\ILoader.java
 C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\context\Bean.java
+C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\context\IBeansContainer.java
 C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\context\ReaderClass.java
 C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\context\Context.java
-C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\ScopePattern.java
 C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\annotations\Autowired.java
+C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\context\ICheckerDependencies.java
 C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\annotations\Component.java
 C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\utils\beans\ClassUtils.java
 C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\annotations\Value.java
@@ -16,7 +18,6 @@ C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\utils\bea
 C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\utils\beans\BeansUtils.java
 C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\utils\LoggerDolkif.java
 C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\App.java
-C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\context\IInjector.java
 C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\utils\StandardSystemProperties.java
 C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\annotations\Qualify.java
 C:\Users\dany1\Documents\Proyects\Dolkif\core\src\main\java\org\dolkif\context\BeansContainer.java

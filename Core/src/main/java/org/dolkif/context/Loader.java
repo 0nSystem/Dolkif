@@ -1,12 +1,14 @@
 package org.dolkif.context;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NonNull;
 
 @AllArgsConstructor
 public class Loader implements ILoader{
+    @Getter
     private final @NonNull IBeansContainer beansContainer;
-    private final @NonNull IInjector injector;
+    private final @NonNull ICheckerDependencies checkerDependencies;
 
 
     @Override
@@ -14,8 +16,4 @@ public class Loader implements ILoader{
         return null;
     }
 
-    @Override
-    public IBeansContainer getBeansContainer() {
-        return beansContainer;
-    }
 }
