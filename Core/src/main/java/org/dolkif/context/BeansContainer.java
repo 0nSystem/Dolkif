@@ -8,6 +8,7 @@ import org.dolkif.utils.beans.ClassUtils;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @AllArgsConstructor
@@ -24,10 +25,12 @@ public final class BeansContainer implements IBeansContainer {
     @Override
     public boolean addBean(final @NonNull Bean.BeanBase<?> beanBase) {
         //TODO Revision requirements BeanBaseConfiguration Pattern Scope
-        if(beanBase instanceof Bean.Instance<?>)
+        if(beanBase instanceof Bean.Instance<?> && !(((Bean.Instance<?> ) beanBase).getValue() instanceof Class<?>) ) // Singleton required obligatory Bean.Instace
             return singletonInstances.add((Bean.Instance<?>) beanBase);
         else if(beanBase instanceof Bean.Type<?>)
             return prototypeTypes.add((Bean.Type<?>) beanBase);
+        else if(((Bean.Instance<?> ) beanBase).getValue() instanceof Class<?>)
+            return prototypeTypes.add(new Bean.Type<>(beanBase.getConfiguration(),(Class<?>) beanBase.getValue()));
         else
             return false;
     }
@@ -53,6 +56,14 @@ public final class BeansContainer implements IBeansContainer {
     @Override
     public <T> Optional<Bean.BeanBase<?>> findBean(Bean.BeanReference<T> beanReference) {
         return filterBean(beanReference).stream().findFirst();
+    }
+
+    @Override
+    public <T> List<Bean.BeanBase<?>> filterBean(Class<T> classType) {
+        return getAllBeans()
+                .stream()
+                .filter(beanBase -> isTypeAvailable(classType,null).test(beanBase))
+                .collect(Collectors.toList());
     }
 
     private Predicate<Bean.BeanBase<?>> isTypeAvailable(final @NonNull Class<?> classTypeFind, final Qualify qualifyClassTypeFind){

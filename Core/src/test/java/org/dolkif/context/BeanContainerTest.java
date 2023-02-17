@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.annotation.Annotation;
+import java.util.List;
 
 public class BeanContainerTest {
 
@@ -14,19 +15,19 @@ public class BeanContainerTest {
     @BeforeEach
     public void configurationBeanContainer(){
         beansContainer.addBean(
-                new Bean.Type<>(new Bean.Configuration(null, Bean.ScopePattern.SINGLETON),
+                Bean.BeanBase.of(new Bean.Configuration(null, Bean.ScopePattern.SINGLETON),
                         String.class)
         );
         beansContainer.addBean(
-                new Bean.Instance<>(new Bean.Configuration("string1", Bean.ScopePattern.SINGLETON),
+                Bean.BeanBase.of(new Bean.Configuration("string1", Bean.ScopePattern.SINGLETON),
                         String.class)
         );
         beansContainer.addBean(
-                new Bean.Instance<>(new Bean.Configuration(null, Bean.ScopePattern.SINGLETON),
-                        Integer.class)
+                Bean.BeanBase.of(new Bean.Configuration(null, Bean.ScopePattern.SINGLETON),
+                        2)
         );
         beansContainer.addBean(
-                new Bean.Type<>(new Bean.Configuration("integer1", Bean.ScopePattern.SINGLETON),
+                Bean.BeanBase.of(new Bean.Configuration("integer1", Bean.ScopePattern.SINGLETON),
                         Integer.class)
         );
     }
@@ -47,13 +48,21 @@ public class BeanContainerTest {
 
     @Test
     public void testFilterBeanContainer(){
-        //TODO REVISION
+        //If not contains qualify get all
         val beanReferenceToFindNotNotQualify = new Bean.BeanReference<>(Bean.TypeReference.NULL,String.class,new Annotation[]{});
         val a = beansContainer.filterBean(beanReferenceToFindNotNotQualify);
         Assertions.assertAll(() -> {
-            Assertions.assertEquals(1,beansContainer.filterBean(beanReferenceToFindNotNotQualify).size());
+            Assertions.assertEquals(2,beansContainer.filterBean(beanReferenceToFindNotNotQualify).size());
             Assertions.assertTrue(beansContainer.findBean(beanReferenceToFindNotNotQualify).isPresent());
         });
 
     }
+
+    @Test
+    public void testFilterBeansByClassType(){
+        List<Bean.BeanBase<?>> beanBases = beansContainer.filterBean(Integer.class);
+        Assertions.assertEquals(2,beanBases.size());
+    }
+
+
 }
