@@ -52,7 +52,15 @@ public final class BeansContainer implements IBeansContainer {
 
     @Override
     public <T> Optional<Bean.BeanBase<?>> findBean(Bean.BeanReference<T> beanReference) {
-        return filterBean(beanReference).stream().findFirst();
+        val optionalAnnotationQualify = (Qualify) Arrays.stream(beanReference.getAnnotationsLoaded())
+                .filter(annotation -> annotation instanceof Qualify)
+                .findFirst()
+                .orElse(null);
+        for (val bean: getAllBeans()) {
+            if(isTypeAvailable(beanReference.getClassType(),optionalAnnotationQualify).test(bean))
+                return Optional.of(bean);
+        }
+        return Optional.empty();
     }
 
     private Predicate<Bean.BeanBase<?>> isTypeAvailable(final @NonNull Class<?> classTypeFind, final Qualify qualifyClassTypeFind){

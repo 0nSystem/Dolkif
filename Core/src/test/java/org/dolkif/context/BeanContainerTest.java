@@ -47,7 +47,6 @@ public class BeanContainerTest {
 
     @Test
     public void testFilterBeanContainer(){
-        //TODO REVISION
         val beanReferenceToFindNotNotQualify = new Bean.BeanReference<>(Bean.TypeReference.NULL,String.class,new Annotation[]{});
         val a = beansContainer.filterBean(beanReferenceToFindNotNotQualify);
         Assertions.assertAll(() -> {
