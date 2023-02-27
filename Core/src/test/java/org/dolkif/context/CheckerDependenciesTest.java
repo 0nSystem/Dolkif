@@ -1,15 +1,11 @@
 package org.dolkif.context;
 
 import lombok.val;
-import org.dolkif.annotations.Autowired;
+import org.dolkif.annotations.*;
 import org.dolkif.annotations.Bean;
-import org.dolkif.annotations.Configuration;
-import org.dolkif.annotations.Qualify;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.AnnotationUtils;
 
-import java.lang.annotation.Annotation;
 import java.util.List;
 
 public class CheckerDependenciesTest {
@@ -104,6 +100,31 @@ public class CheckerDependenciesTest {
             Assertions.assertEquals(Integer.class,fieldToScan.get().getClassType());
         });
     }
+    @Test
+    public void testConvertResourceToClass(){
+        ICheckerDependencies checkerDependencies = new CheckerDependencies();
+        try {
+            checkerDependencies.convertResourceInClass(new ReaderClass.Resource(String.class.getTypeName()));
+        }catch (Exception e){
+            Assertions.fail(e.getMessage());
+        }
+    }
+    @Test
+    public void testFilterValidAndConvertResourceToClass(){
+        ICheckerDependencies checkerDependencies = new CheckerDependencies();
+        try {
+            val classTypesAvailable = checkerDependencies.filterResourceAvailableToInject(List.of(
+                    new ReaderClass.Resource(ConfigurationBean.class.getTypeName()),
+                    new ReaderClass.Resource(ComponentConfiguration.class.getTypeName()),
+                    new ReaderClass.Resource(String.class.getTypeName())
+            ));
+            Assertions.assertAll(() -> {
+                Assertions.assertEquals(2, classTypesAvailable.size());
+            });
+        }catch (Exception e){
+            Assertions.fail(e.getMessage());
+        }
+    }
 
 
     @Configuration
@@ -146,4 +167,7 @@ public class CheckerDependenciesTest {
             return "Example Return";
         }
     }
+
+    @Component
+    private static class ComponentConfiguration{}
 }

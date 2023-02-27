@@ -13,6 +13,7 @@ public interface IBeansContainer {
 
     <T> List<Bean.BeanBase<?>> filterBean(final @NonNull Bean.BeanReference<T> beanReference);
     <T> Optional<Bean.BeanBase<?>> findBean(final @NonNull Bean.BeanReference<T> beanReference);
+    <T> List<Bean.BeanBase<?>> filterBean(Class<T> classType);
 
 
 }

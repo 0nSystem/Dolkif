@@ -28,13 +28,13 @@ public final class Bean {
     }
     @EqualsAndHashCode(callSuper = true)
     public static final class Instance<T> extends BeanBase<T>{
-        public Instance(Configuration configuration,T value){
+        Instance(Configuration configuration,T value){
             super(configuration,value);
         }
     }
     @EqualsAndHashCode(callSuper = true)
     public static final class Type<T> extends BeanBase<Class<T>>{
-        public Type(Configuration configuration, Class<T> value){
+        Type(Configuration configuration, Class<T> value){
             super(configuration,value);
         }
     }
@@ -45,6 +45,13 @@ public final class Bean {
     public static abstract class BeanBase<T> implements BeanContainerOperation<T> {
         private final @NonNull Configuration configuration;
         private final @NonNull T value;
+
+        public static <T> BeanBase<T> of(Configuration configuration, T value){ //TODO PENDING TO TEST
+            if (value instanceof Class<?>)
+                return (BeanBase<T>) new Type<>(configuration, (Class<T>) value);
+            else
+                return new Instance<>(configuration,value);
+        }
     }
 
     public interface BeanContainerOperation<T>{

@@ -4,6 +4,8 @@ package org.dolkif.context;
 import lombok.NonNull;
 import lombok.val;
 import org.dolkif.annotations.Autowired;
+import org.dolkif.annotations.Component;
+import org.dolkif.annotations.Configuration;
 import org.dolkif.utils.beans.AnnotationUtils;
 
 import java.lang.reflect.*;
@@ -62,6 +64,24 @@ public class CheckerDependencies implements ICheckerDependencies {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Class<?> convertResourceInClass(ReaderClass.Resource resource) throws ClassNotFoundException {//TODO
+        return ClassLoader.getSystemClassLoader().loadClass(resource.getResoucePath());
+    }
+
+    @Override
+    public List<Class<?>> filterResourceAvailableToInject(List<ReaderClass.Resource> resources) throws ClassNotFoundException{ //TODO
+        final List<Class<?>> classTypes = new ArrayList<>();
+        for (ReaderClass.Resource resource: resources) {
+            final Class<?> typeConverted = convertResourceInClass(resource);
+            if(typeConverted.getAnnotation(Configuration.class) != null || typeConverted.getAnnotation(Component.class) != null)
+                classTypes.add(typeConverted);
+        }
+        return classTypes;
+    }
+
+
+
     private Optional<Map<Parameter,Bean.BeanBase<?>>> cleanParametersOptionals(final @NonNull Map<Parameter,Optional<Bean.BeanBase<?>>> mapParamsWithBeanBase) {
         val mapsAvailableParams = mapParamsWithBeanBase.entrySet().stream().filter(mapEntry -> mapEntry.getValue().isPresent());
 
@@ -98,5 +118,4 @@ public class CheckerDependencies implements ICheckerDependencies {
 
         return isEqualsTypeName;
     }
-
 }
