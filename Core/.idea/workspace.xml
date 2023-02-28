@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ede45c1c-b20d-4c74-9c99-e9186ebe780e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/annotations/Bean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/annotations/Bean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/annotations/Component.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/annotations/Component.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/annotations/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/annotations/Configuration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/context/Bean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/context/Bean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/context/BeansContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/context/BeansContainer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/context/CheckerDependencies.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/context/CheckerDependencies.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/context/ICheckerDependencies.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/context/ICheckerDependencies.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/context/ILoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/context/ILoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/context/Loader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/context/Loader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/utils/ApplicationProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/utils/ApplicationProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/dolkif/context/BeanContainerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/dolkif/context/BeanContainerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/dolkif/context/CheckerDependenciesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/dolkif/context/CheckerDependenciesTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="workspaceImportEnabled" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2MMKvoPZNq4iRQfw182HINpqUb8" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/dgarcia/Documents/Proyects/Otros/Dolkif/Core"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ede45c1c-b20d-4c74-9c99-e9186ebe780e" name="Changes" comment="" />
+      <created>1677572245165</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1677572245165</updated>
+    </task>
+    <servers />
+  </component>
+</project>
