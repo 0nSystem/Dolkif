@@ -60,7 +60,6 @@ public class Loader implements ILoader{
             val optionalConfigurationAnnotation = Optional.ofNullable(classType.getAnnotation(Configuration.class));
             if(optionalConfigurationAnnotation.isPresent()){
                 loadBeanContainerWithConfigurationAnnotation(classType);
-                continue;
             }
         }
 
@@ -82,12 +81,23 @@ public class Loader implements ILoader{
                 return (Bean.BeanBase<T>) Bean.BeanBase.of(new Bean.Configuration(nameBean,scopePattern),classType,classType.getConstructors());
             }
             case SINGLETON -> {
-                val paramsDependenciesToLoad = Arrays.stream(classType.getConstructors())
-                        .map(constructor -> new AbstractMap.SimpleEntry<>(constructor,this.checkerDependencies.getAvailableParamsCheckingExecutable(constructor,this.beansContainer.getAllBeans())))
-                        .filter(constructorOptionalSimpleEntry -> constructorOptionalSimpleEntry.getValue().isPresent())
+                //TODO REQUIRED REFACTOR FUNCTION TO FUNCTION
+                val optionalEmptyEntryConstructor = Arrays.stream(classType.getDeclaredConstructors())
+                        .filter(c -> this.checkerDependencies.executableIsEmptyParams(c)) //
                         .findFirst()
-                        .orElseThrow(() -> new RuntimeException("Error finding constructor available"));
-                final T beanInstance = instance(paramsDependenciesToLoad.getKey(),paramsDependenciesToLoad.getValue().orElseThrow(() -> new UnsupportedOperationException("Error getting dependencies in load")));
+                        .map(constructor -> new AbstractMap.SimpleEntry<>(constructor, Map.of()));
+                T beanInstance = null;
+                if(optionalEmptyEntryConstructor.isPresent())
+                    beanInstance = instance(classType.getDeclaredConstructors()[0], Map.of());
+                else{
+                    val paramsDependenciesToLoad = Arrays.stream(classType.getConstructors())
+                            .map(constructor -> new AbstractMap.SimpleEntry<>(constructor,this.checkerDependencies.getAvailableParamsCheckingExecutable(constructor,this.beansContainer.getAllBeans())))
+                            .filter(constructorOptionalSimpleEntry -> constructorOptionalSimpleEntry.getValue().isPresent())
+                            .findFirst()
+                            .map(constructorOptionalSimpleEntry -> new AbstractMap.SimpleEntry<>(constructorOptionalSimpleEntry.getKey(),constructorOptionalSimpleEntry.getValue().get()))
+                            .orElseThrow(() -> new RuntimeException("Error finding constructor available"));
+                    beanInstance = instance(paramsDependenciesToLoad.getKey(),paramsDependenciesToLoad.getValue());
+                }
                 loadFieldsRequirements(beanInstance);
                 return Bean.BeanBase.of(new Bean.Configuration(nameBean,scopePattern),beanInstance,null);
             }
@@ -96,14 +106,17 @@ public class Loader implements ILoader{
     }
 
     private <T> List<Bean.BeanBase<T>> loadBeanContainerWithConfigurationAnnotation(final @NonNull Class<T> classType) throws InvocationTargetException, IllegalAccessException, InstantiationException {
+        //TODO require load fields requirements before load or inject in methods pending revision
         final List<Bean.BeanBase<T>>listBeanInstance = new ArrayList<>();
-        for (val method:
-             AnnotationUtils.getMethodsWithAnnotation(classType,org.dolkif.annotations.Bean.class)) {
+        for (val method: AnnotationUtils.getMethodsWithAnnotation(classType,org.dolkif.annotations.Bean.class)) {
             val beanAnnotation = Optional.ofNullable(method.getAnnotation(org.dolkif.annotations.Bean.class)).orElseThrow(() -> new RuntimeException("Error not found Bean Annotation"));
             val nameBean = beanAnnotation.nameBean().isBlank()?method.getName():beanAnnotation.nameBean();
-            val paramsDependenciesToLoad = this.checkerDependencies.getAvailableParamsCheckingExecutable(method,this.beansContainer.getAllBeans())
-                    .orElseThrow(() -> new RuntimeException(String.format("Error haven't available params to execute method %s",method)));
-            final T beanInstance = instance(method,paramsDependenciesToLoad);
+            final Map<Parameter, Bean.BeanBase<?>> paramsExecutable = this.checkerDependencies.executableIsEmptyParams(method)
+                        ?   Map.of()
+                        :  this.checkerDependencies.getAvailableParamsCheckingExecutable(method, this.beansContainer.getAllBeans())
+                            .orElseThrow(() -> new RuntimeException(String.format("Error haven't available params to execute method %s", method)));
+
+            final T beanInstance = instance(method, paramsExecutable);
             loadFieldsRequirements(beanInstance);
             listBeanInstance.add(Bean.BeanBase.of(new Bean.Configuration(nameBean,beanAnnotation.scope()),beanInstance,null));
         }
@@ -113,6 +126,9 @@ public class Loader implements ILoader{
     private <T> T instance(final @NonNull Executable executable, final @NonNull Map<Parameter, Bean.BeanBase<?>> mapParamsWithBeanType) throws InvocationTargetException, IllegalAccessException, UnsupportedOperationException, InstantiationException {
         //TODO Required instace if is Bean.Type
         List<Object> objectsParameters = new ArrayList<>();
+        Object instanceFatherMethod = null;
+        if(executable instanceof Method)
+            instanceFatherMethod = getInstance(executable.getDeclaringClass());
         for (val bean:
              mapParamsWithBeanType.values()) {
             if(bean instanceof Bean.Instance<?>)
@@ -121,9 +137,11 @@ public class Loader implements ILoader{
                 objectsParameters.add(this.getInstance(((Bean.Type<?>) bean).getValue()));
         }
         if(executable instanceof Method){
-            return (T)((Method) executable).invoke(mapParamsWithBeanType.values());
+            return (T)((Method) executable).invoke(instanceFatherMethod,objectsParameters);
         }else if(executable instanceof Constructor<?>){
-            return ((Constructor<T>) executable).newInstance(mapParamsWithBeanType.values());
+            return objectsParameters.isEmpty()
+                    ? ((Constructor<T>) executable).newInstance()
+                    : ((Constructor<T>) executable).newInstance(objectsParameters);
         }
         throw new UnsupportedOperationException(String.format("Error cant instance executable: %s",executable));
     }

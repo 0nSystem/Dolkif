@@ -12,6 +12,8 @@ public interface ICheckerDependencies {
 
 
     Optional<Map<Parameter,Bean.BeanBase<?>>> getAvailableParamsCheckingExecutable(final @NonNull Executable executable, final @NonNull List<Bean.BeanBase<?>> classList);
+    boolean executableIsEmptyParams(final @NonNull Executable executable);
+    boolean executableIsPrimary(final @NonNull Executable executable);
 
     boolean checkAvailableExecutable(final @NonNull Executable executable);
 

@@ -6,6 +6,7 @@ import lombok.val;
 import org.dolkif.annotations.Autowired;
 import org.dolkif.annotations.Component;
 import org.dolkif.annotations.Configuration;
+import org.dolkif.annotations.Primary;
 import org.dolkif.utils.ApplicationProperties;
 import org.dolkif.utils.beans.AnnotationUtils;
 
@@ -19,9 +20,19 @@ public class CheckerDependencies implements ICheckerDependencies {
     public Optional<Map<Parameter,Bean.BeanBase<?>>> getAvailableParamsCheckingExecutable(final @NonNull Executable executable, final @NonNull List<Bean.BeanBase<?>> classList){
         if(!checkAvailableExecutable(executable))
             return Optional.empty();
-
         return cleanParametersOptionals(getAvailableTypesToParameter(executable,classList));
     }
+    //TODO TEST
+    @Override
+    public boolean executableIsEmptyParams(@NonNull Executable executable) {
+        return executable.getParameters() == null || executable.getParameters().length == 0;
+    }
+    //TODO TEST
+    @Override
+    public boolean executableIsPrimary(@NonNull Executable executable) {
+        return Optional.ofNullable(executable.getAnnotation(Primary.class)).isPresent();
+    }
+
     @Override
     public boolean checkAvailableExecutable(final @NonNull Executable executable){
         if(!Modifier.isPublic(executable.getModifiers()))
@@ -98,6 +109,8 @@ public class CheckerDependencies implements ICheckerDependencies {
     }
 
     private Map<Parameter,Optional<Bean.BeanBase<?>>> getAvailableTypesToParameter(final @NonNull Executable executable, final @NonNull List<Bean.BeanBase<?>> classList){
+        if(executable.getParameters().length == 0)
+            return new HashMap<>();
         return Arrays.stream(executable.getParameters())
                 .collect(Collectors.toMap(
                         parameter -> parameter,
