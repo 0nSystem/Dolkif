@@ -6,6 +6,6 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Bean {
-    org.dolkif.context.Bean.ScopePattern scope() default org.dolkif.context.Bean.ScopePattern.PROTOTYPE;
+    org.dolkif.context.Bean.ScopePattern scope() default org.dolkif.context.Bean.ScopePattern.SINGLETON;
     String nameBean() default "";
 }

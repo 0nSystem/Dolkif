@@ -20,7 +20,10 @@ public interface ICheckerDependencies {
     List<Bean.BeanReference<?>> getParamsRequired(final @NonNull Executable executable);
 
     List<Bean.BeanReference<?>> getFieldsRequired(final @NonNull Class<?> classType);
-    Class<?> convertResourceInClass(ReaderClass.Resource resource) throws ClassNotFoundException;
-    List<Class<?>> filterResourceAvailableToInject(List<ReaderClass.Resource> resource) throws ClassNotFoundException;
+    Class<?> convertResourceInClass(final @NonNull ReaderClass.Resource resource) throws ClassNotFoundException;
+    List<Class<?>> filterResourceAvailableToInject(final @NonNull List<ReaderClass.Resource> resource) throws ClassNotFoundException;
+
+    Map<Bean.BeanReference<?>,List<Bean.BeanReference<?>>> parserClassToBeanReference(final @NonNull List<Class<?>> classType);
+
 
 }

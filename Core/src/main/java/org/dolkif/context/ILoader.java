@@ -1,10 +1,12 @@
 package org.dolkif.context;
 
 
+import lombok.NonNull;
+
 public interface ILoader {
 
 
-    <T> T newInstance(Class<T> classType);
+    <T> T newInstance(final @NonNull Bean.BeanReference<T> beanReference);
     IBeansContainer getBeansContainer();
 
 }

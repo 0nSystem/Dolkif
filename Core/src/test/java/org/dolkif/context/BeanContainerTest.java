@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BeanContainerTest {
@@ -16,26 +17,27 @@ public class BeanContainerTest {
     public void configurationBeanContainer(){
         beansContainer.addBean(
                 Bean.BeanBase.of(new Bean.Configuration(null, Bean.ScopePattern.SINGLETON),
-                        String.class)
+                        String.class, new ArrayList<>())
         );
         beansContainer.addBean(
                 Bean.BeanBase.of(new Bean.Configuration("string1", Bean.ScopePattern.SINGLETON),
-                        String.class)
+                        String.class,new ArrayList<>())
         );
         beansContainer.addBean(
                 Bean.BeanBase.of(new Bean.Configuration(null, Bean.ScopePattern.SINGLETON),
-                        2)
+                        2,new ArrayList<>())
         );
         beansContainer.addBean(
                 Bean.BeanBase.of(new Bean.Configuration("integer1", Bean.ScopePattern.SINGLETON),
-                        Integer.class)
+                        Integer.class,new ArrayList<>())
         );
     }
     @Test
     public void testAddBeanContainer(){
-        val beanToCopyTwoTimeFirstAddAndSecondCantAdd = new Bean.Instance<>(
+        val beanToCopyTwoTimeFirstAddAndSecondCantAdd = new Bean.Type<>(
                 new Bean.Configuration(null, Bean.ScopePattern.PROTOTYPE),
-                Double.class
+                Double.class,
+                new ArrayList<>()
         );
 
         Assertions.assertAll(() -> {

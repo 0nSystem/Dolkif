@@ -3,6 +3,7 @@ package org.dolkif.context;
 import lombok.*;
 
 import java.lang.annotation.Annotation;
+import java.util.List;
 
 public final class Bean {
 
@@ -14,7 +15,9 @@ public final class Bean {
     }
     public enum TypeReference{
         FIELDS_CLASS,
-        PARAMS_EXECUTABLE,
+        PARAMS_EXECUTABLE_METHOD,
+        PARAMS_EXECUTABLE_CONSTRUCTOR,
+        CLASS,
         NULL
 
     }
@@ -25,6 +28,7 @@ public final class Bean {
         private final @NonNull TypeReference typeReference;
         private final @NonNull Class<T> classType;
         private final @NonNull Annotation[] annotationsLoaded;
+
     }
     @EqualsAndHashCode(callSuper = true)
     public static final class Instance<T> extends BeanBase<T>{
@@ -34,8 +38,10 @@ public final class Bean {
     }
     @EqualsAndHashCode(callSuper = true)
     public static final class Type<T> extends BeanBase<Class<T>>{
-        Type(Configuration configuration, Class<T> value){
+        private @Getter final List<BeanReference<?>> dependencies;
+        Type(final @NonNull Configuration configuration,final @NonNull Class<T> value,final @NonNull List<BeanReference<?>> dependencies){
             super(configuration,value);
+            this.dependencies = dependencies;
         }
     }
 
@@ -46,9 +52,9 @@ public final class Bean {
         private final @NonNull Configuration configuration;
         private final @NonNull T value;
 
-        public static <T> BeanBase<T> of(Configuration configuration, T value){ //TODO PENDING TO TEST
+        public static <T> BeanBase<T> of(final @NonNull Configuration configuration,final @NonNull T value,final @NonNull List<BeanReference<?>> beanDependencies){ //TODO PENDING TO TEST
             if (value instanceof Class<?>)
-                return (BeanBase<T>) new Type<>(configuration, (Class<T>) value);
+                return (BeanBase<T>) new Type<>(configuration, (Class<T>) value,beanDependencies);
             else
                 return new Instance<>(configuration,value);
         }

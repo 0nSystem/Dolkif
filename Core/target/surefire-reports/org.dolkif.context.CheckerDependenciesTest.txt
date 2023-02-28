@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: org.dolkif.context.CheckerDependenciesTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.033 s - in org.dolkif.context.CheckerDependenciesTest

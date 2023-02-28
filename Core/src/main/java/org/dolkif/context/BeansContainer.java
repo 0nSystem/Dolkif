@@ -29,8 +29,8 @@ public final class BeansContainer implements IBeansContainer {
             return singletonInstances.add((Bean.Instance<?>) beanBase);
         else if(beanBase instanceof Bean.Type<?>)
             return prototypeTypes.add((Bean.Type<?>) beanBase);
-        else if(((Bean.Instance<?> ) beanBase).getValue() instanceof Class<?>)
-            return prototypeTypes.add(new Bean.Type<>(beanBase.getConfiguration(),(Class<?>) beanBase.getValue()));
+        //else if(((Bean.Instance<?> ) beanBase).getValue() instanceof Class<?>)
+            //return prototypeTypes.add(new Bean.Type<>(beanBase.getConfiguration(),(Class<?>) beanBase.getValue(),((Bean.Type<?>) beanBase).getDependencies()));
         else
             return false;
     }

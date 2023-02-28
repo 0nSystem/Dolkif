@@ -10,7 +10,9 @@ import org.dolkif.utils.beans.AnnotationUtils;
 
 import java.lang.reflect.*;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CheckerDependencies implements ICheckerDependencies {
 
@@ -51,8 +53,16 @@ public class CheckerDependencies implements ICheckerDependencies {
 
     @Override
     public List<Bean.BeanReference<?>> getParamsRequired(@NonNull Executable executable) {
+        Bean.TypeReference typeReference;
+        if(executable instanceof Constructor<?>)
+            typeReference = Bean.TypeReference.PARAMS_EXECUTABLE_CONSTRUCTOR;
+        else if(executable instanceof  Method)
+            typeReference = Bean.TypeReference.PARAMS_EXECUTABLE_METHOD;
+        else {
+            typeReference = Bean.TypeReference.NULL;
+        }
         return Arrays.stream(executable.getParameters())
-                .map(param->new Bean.BeanReference<>(Bean.TypeReference.PARAMS_EXECUTABLE,param.getType(),param.getAnnotations()))
+                .map(param->new Bean.BeanReference<>(typeReference,param.getType(),param.getAnnotations()))
                 .collect(Collectors.toList());
     }
 
@@ -80,6 +90,44 @@ public class CheckerDependencies implements ICheckerDependencies {
         return classTypes;
     }
 
+    /**
+     *
+     * @param classTypes
+     * @return this key component father bean and values is a dependence to instance bean
+     */
+    //TODO PENDING TO TEST
+    @Override
+    public Map<Bean.BeanReference<?>,List<Bean.BeanReference<?>>> parserClassToBeanReference(@NonNull List<Class<?>> classTypes) {
+        Function<Class<?>, Map.Entry<Bean.BeanReference<?>,List<Bean.BeanReference<?>>>> functionParserClassTypesToBeanReference = classType -> {
+
+            val beanBasePrincipal = new Bean.BeanReference(Bean.TypeReference.CLASS,classType, classType.getAnnotations());
+            List<Bean.BeanReference<?>> beanReferencesChildren = getFieldsRequired(classType);
+            val annotationComponent = classType.getAnnotation(Component.class);
+            if(annotationComponent != null){
+                for (val executable:
+                     AnnotationUtils.getMethodsWithAnnotation(classType, org.dolkif.annotations.Bean.class)) {
+                    beanReferencesChildren.addAll(this.getParamsRequired(executable));
+                }
+                return Map.entry(beanBasePrincipal,beanReferencesChildren);
+            }
+            val annotationConfiguration = classType.getAnnotation(Configuration.class);
+            if(annotationConfiguration != null){
+                for (val executable:
+                        classType.getConstructors()) {
+                    beanReferencesChildren.addAll(this.getParamsRequired(executable));
+                }
+                return Map.entry(beanBasePrincipal,beanReferencesChildren);
+            }
+
+            throw new UnsupportedOperationException("Error operation not contains required annotations ");
+        };
+        Map<Bean.BeanReference<?>,List<Bean.BeanReference<?>>> mapRelationshipFatherWithChildrenDependencies = new HashMap<>();
+        classTypes.forEach(classType -> {
+            val entry = functionParserClassTypesToBeanReference.apply(classType);
+            mapRelationshipFatherWithChildrenDependencies.putIfAbsent(entry.getKey(),entry.getValue());
+        });
+        return mapRelationshipFatherWithChildrenDependencies;
+    }
 
 
     private Optional<Map<Parameter,Bean.BeanBase<?>>> cleanParametersOptionals(final @NonNull Map<Parameter,Optional<Bean.BeanBase<?>>> mapParamsWithBeanBase) {
