@@ -29,8 +29,9 @@ public final class BeansContainer implements IBeansContainer {
             return singletonInstances.add((Bean.Instance<?>) beanBase);
         else if(beanBase instanceof Bean.Type<?>)
             return prototypeTypes.add((Bean.Type<?>) beanBase);
+        //TODO REVISION
         else if(((Bean.Instance<?> ) beanBase).getValue() instanceof Class<?>)
-            return prototypeTypes.add(new Bean.Type<>(beanBase.getConfiguration(),(Class<?>) beanBase.getValue()));
+            return prototypeTypes.add(new Bean.Type<>(beanBase.getConfiguration(),(Class<?>) beanBase.getValue(),null)); //TODO REVISIOn
         else
             return false;
     }
@@ -62,6 +63,16 @@ public final class BeansContainer implements IBeansContainer {
         for (val bean: getAllBeans()) {
             if(isTypeAvailable(beanReference.getClassType(),optionalAnnotationQualify).test(bean))
                 return Optional.of(bean);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public <T> Optional<Bean.BeanBase<?>> findBean(final @NonNull Class<T> classType) {
+        for (val beanBase:
+             getAllBeans()) {
+            if(isTypeAvailable(classType,null).test(beanBase))
+                return Optional.of(beanBase);
         }
         return Optional.empty();
     }

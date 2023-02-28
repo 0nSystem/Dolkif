@@ -22,5 +22,4 @@ public interface ICheckerDependencies {
     List<Bean.BeanReference<?>> getFieldsRequired(final @NonNull Class<?> classType);
     Class<?> convertResourceInClass(ReaderClass.Resource resource) throws ClassNotFoundException;
     List<Class<?>> filterResourceAvailableToInject(List<ReaderClass.Resource> resource) throws ClassNotFoundException;
-
 }

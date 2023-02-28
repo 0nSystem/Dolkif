@@ -3,6 +3,9 @@ package org.dolkif.context;
 import lombok.*;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Executable;
+import java.lang.reflect.Parameter;
+import java.util.List;
 
 public final class Bean {
 
@@ -34,8 +37,10 @@ public final class Bean {
     }
     @EqualsAndHashCode(callSuper = true)
     public static final class Type<T> extends BeanBase<Class<T>>{
-        Type(Configuration configuration, Class<T> value){
+        private @Getter final Executable[] dependencies;
+        Type(Configuration configuration, Class<T> value,final Executable[] dependencies){
             super(configuration,value);
+            this.dependencies = dependencies;
         }
     }
 
@@ -46,9 +51,9 @@ public final class Bean {
         private final @NonNull Configuration configuration;
         private final @NonNull T value;
 
-        public static <T> BeanBase<T> of(Configuration configuration, T value){ //TODO PENDING TO TEST
+        public static <T> BeanBase<T> of(Configuration configuration, T value,final Executable[] dependencies){ //TODO PENDING TO TEST
             if (value instanceof Class<?>)
-                return (BeanBase<T>) new Type<>(configuration, (Class<T>) value);
+                return (BeanBase<T>) new Type<>(configuration, (Class<T>) value,dependencies);
             else
                 return new Instance<>(configuration,value);
         }

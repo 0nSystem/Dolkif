@@ -6,6 +6,7 @@ import org.dolkif.annotations.Bean;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CheckerDependenciesTest {
@@ -30,7 +31,9 @@ public class CheckerDependenciesTest {
     public void testParamsIsAvailable(){
         ICheckerDependencies injector = new CheckerDependencies();
         val beanType = new org.dolkif.context.Bean.Type<>(
-                new org.dolkif.context.Bean.Configuration("nameBean", org.dolkif.context.Bean.ScopePattern.SINGLETON), String.class
+                new org.dolkif.context.Bean.Configuration("nameBean", org.dolkif.context.Bean.ScopePattern.SINGLETON),
+                String.class,
+                null
         );
 
         boolean paramIsValid =  injector.paramsIsAvailable(
@@ -54,7 +57,8 @@ public class CheckerDependenciesTest {
         List<org.dolkif.context.Bean.BeanBase<?>> beanBases = List.of(
                 new org.dolkif.context.Bean.Type<>(
                         new org.dolkif.context.Bean.Configuration("nameBean", org.dolkif.context.Bean.ScopePattern.SINGLETON),
-                        String.class
+                        String.class,
+                        null
                 )
         );
 

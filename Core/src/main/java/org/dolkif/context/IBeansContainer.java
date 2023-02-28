@@ -12,8 +12,9 @@ public interface IBeansContainer {
     List<Bean.BeanBase<?>> getAllBeans();
 
     <T> List<Bean.BeanBase<?>> filterBean(final @NonNull Bean.BeanReference<T> beanReference);
+    <T> List<Bean.BeanBase<?>> filterBean(final @NonNull Class<T> classType);
     <T> Optional<Bean.BeanBase<?>> findBean(final @NonNull Bean.BeanReference<T> beanReference);
-    <T> List<Bean.BeanBase<?>> filterBean(Class<T> classType);
+    <T> Optional<Bean.BeanBase<?>> findBean(final @NonNull Class<T> classType);
 
 
 }

@@ -4,20 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ede45c1c-b20d-4c74-9c99-e9186ebe780e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/annotations/Bean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/annotations/Bean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/annotations/Component.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/annotations/Component.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/annotations/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/annotations/Configuration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/context/Bean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/context/Bean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/context/BeansContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/context/BeansContainer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/context/CheckerDependencies.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/context/CheckerDependencies.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/context/ICheckerDependencies.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/context/ICheckerDependencies.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/context/ILoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/context/ILoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/context/Loader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/context/Loader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/dolkif/utils/ApplicationProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/dolkif/utils/ApplicationProperties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/dolkif/context/BeanContainerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/dolkif/context/BeanContainerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/dolkif/context/CheckerDependenciesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/dolkif/context/CheckerDependenciesTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="ede45c1c-b20d-4c74-9c99-e9186ebe780e" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

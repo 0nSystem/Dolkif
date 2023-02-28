@@ -1,10 +1,12 @@
 package org.dolkif.context;
 
 
+import java.lang.reflect.InvocationTargetException;
+
 public interface ILoader {
 
 
-    <T> T newInstance(Class<T> classType);
+    <T> T getInstance(Class<T> classType) throws InvocationTargetException, IllegalAccessException, InstantiationException;
     IBeansContainer getBeansContainer();
 
 }
